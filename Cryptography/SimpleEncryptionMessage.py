@@ -16,6 +16,7 @@ def decrypt(ciphertext, key):
 
 message=input("message is: ")
 key = random.randint(0, 255)
+print("key: ", key)
 print("Original message:", message)
 encrypted_message = encrypt(message, key)
 print("Encrypted:", encrypted_message) 
