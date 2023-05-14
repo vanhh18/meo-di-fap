@@ -57,7 +57,7 @@ node *FindMin(node *root)
 
 node *FindMax(node *root)
 {
-    while(root -> right = NULL)
+    while(root -> right == NULL)
     {
         root = root -> right;
     }
@@ -100,8 +100,49 @@ node *Delete(node *&root, int data)
     }
     return root;
 }
+
+//inorder: left -> root -> right
+void traversal_inorder(node* root)
+{
+    if(root == NULL)
+    {
+        return;
+    }
+    traversal_inorder(root -> left);
+    cout << root -> data << " ";
+    traversal_inorder(root -> right);
+}
+
+//preorder: root -> left -> right
+void traversal_preorder(node* root)
+{
+    if(root == NULL)
+    {
+        return;
+    }
+    cout << root -> data << " ";
+    traversal_preorder(root -> left);
+    traversal_preorder(root -> right);
+}
+//postorder left -> right -> root
+void traversal_postorder(node* root)
+{
+    if(root == NULL)
+    {
+        return;
+    }
+    traversal_postorder(root -> left); 
+    traversal_postorder(root -> right);
+    cout << root -> data << " ";
+}
 int main()
 {
-
+    node* root = NULL;
+    cout << "inorder: ";
+    traversal_inorder(root);
+    cout << "\npreorder: ";
+    traversal_preorder(root);
+    cout << "\npostorder: ";
+    traversal_postorder(root);
     return 0;
 }
