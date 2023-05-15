@@ -21,7 +21,7 @@
 ## Pull code
 
 <ol>
-    <li>git checkout develop</li>
+    <li>git checkout </li>
     <li>git pull</li>
 </ol>
 
