@@ -1,11 +1,22 @@
 #include <stdio.h>
 
+struct Date{
+	int day;
+	int month;
+	int year;	
+};
+
+struct Medical_Record{
+	
+};
+
 struct Patient {
     char name[50];
     int age;
     char gender;
-    char address[50];
-    
+    struct Date date;
+    int phone_number;
+    struct Medical_Record record;
 };
 
 void writeRecord(struct Person p) {
