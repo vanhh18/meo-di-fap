@@ -1,3 +1,7 @@
-chau    20  M
-nam     20  m
-vanh    20  F
+1	Tran Ba Chau
+	20	M	20/5/2023
+	No
+	No
+	No
+	Yes
+	200	100

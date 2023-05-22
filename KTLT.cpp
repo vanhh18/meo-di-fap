@@ -27,7 +27,10 @@ void writeRecord(struct Medical_Record record) {
         return;
     }
 
-    fprintf(file, "%d\t%s\t%d\t%c\t%s\t%s\t%s\t%s\t%d\t%d\n", record.patient.ID, record.patient.name, record.patient.age, record.patient.gender, record.date, record.symptoms, record.disease, record.medications, record.instruction, record.bill, record.insurance);
+    fprintf(file, "%d\t%s\t%d\t%c\t%s\t%s\t%s\t%s\t%s\t%d\t%d\n",
+        record.patient.ID, record.patient.name, record.patient.age, record.patient.gender,
+        record.date, record.symptoms, record.disease, record.medications,
+        record.instruction, record.bill, record.insurance);
 
     fclose(file);
 }
@@ -41,7 +44,7 @@ void readRecords() {
         return;
     }
 
-    while (fscanf(file, "%d %[^\t] %d %c %[^\t] %[^\t] %[^\t] %[^\t] %d %d", &record.patient.ID, record.patient.name, &record.patient.age, &record.patient.gender, record.date, record.symptoms, record.disease, record.medications, &record.bill, &record.insurance) != EOF) {
+    while (fscanf(file, "%d %[^\n] %d %c %[^\n] %[^\n] %[^\n] %[^\n] %[^\n] %d %d\n", &record.patient.ID, record.patient.name, &record.patient.age, &record.patient.gender, record.date, record.symptoms, record.disease, record.medications, record.instruction, &record.bill, &record.insurance) != EOF) {
         printf("Patient ID: %d\n", record.patient.ID);
         printf("Name: %s\n", record.patient.name);
         printf("Age: %d\n", record.patient.age);
