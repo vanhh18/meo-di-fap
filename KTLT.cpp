@@ -1,35 +1,22 @@
 #include <stdio.h>
 
-struct Medicine{
-    char medicine_name[50];
-    int dose;
-    char instruction[50];
-};
-
-struct Medical_Record{
-	char allergies[50];         // medicines, food, other substances
-    char test_result[50];       // blood tests, X-rays, etc.
-    char mental_health[50];     // anxiety or depression
-    char medical_problem[50];   // asthma, epilepsy, or diabetes
-    char disease[50];           
-    struct Medicine med;
-    int bill;
-    int insurance;
-};
-
-struct Date{
-	int day;
-	int month;
-	int year;	
-};
-
 struct Patient {
+    int ID;
     char name[50];
     int age;
     char gender;
-    struct Date date;
     int phone_number;
-    struct Medical_Record record;
+};
+
+struct Medical_Record{
+    struct Patient patient;
+    char date[20];
+    char symptoms[100];
+    char disease[50];
+    char medications[100];
+    char instruction[200];         
+    int bill;
+    int insurance;
 };
 
 void writeRecord(struct Patient p) {
@@ -40,7 +27,7 @@ void writeRecord(struct Patient p) {
         return;
     }
 
-    fprintf(file, "%s %d %c\n", p.name, p.age, p.gender);
+    fprintf(file, "%s\t %d\t %c\n", p.name, p.age, p.gender);
 
     fclose(file);
 }
