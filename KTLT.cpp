@@ -4,6 +4,8 @@ struct Patient {
     char name[50];
     int age;
     char gender;
+    char address[50];
+    
 };
 
 void writeRecord(struct Person p) {
