@@ -1,13 +1,13 @@
 #include <stdio.h>
 
+struct Medical_Record{
+	
+};
+
 struct Date{
 	int day;
 	int month;
 	int year;	
-};
-
-struct Medical_Record{
-	
 };
 
 struct Patient {
