@@ -19,7 +19,7 @@ struct Patient {
     struct Medical_Record record;
 };
 
-void writeRecord(struct Person p) {
+void writeRecord(struct Patient p) {
     FILE *file = fopen("records.txt", "a");
 
     if (file == NULL) {
@@ -27,13 +27,13 @@ void writeRecord(struct Person p) {
         return;
     }
 
-    fprintf(file, "%s %d %s\n", p.name, p.age, p.email);
+    fprintf(file, "%s %d %c\n", p.name, p.age, p.gender);
 
     fclose(file);
 }
 
 void readRecords() {
-    struct Person p;
+    struct Patient p;
     FILE *file = fopen("records.txt", "r");
 
     if (file == NULL) {
@@ -41,17 +41,17 @@ void readRecords() {
         return;
     }
 
-    while (fscanf(file, "%s %d %s", p.name, &p.age, p.email) != EOF) {
+    while (fscanf(file, "%s %d %c", p.name, &p.age, p.gender) != EOF) {
         printf("Name: %s\n", p.name);
         printf("Age: %d\n", p.age);
-        printf("Email: %s\n", p.email);
+        printf("gender: %s\n", p.gender);
     }
 
     fclose(file);
 }
 
 int main() {
-    struct Person newPerson;
+    struct Patient newPatient;
     char choice;
 
     printf("Do you want to add a record? (y/n): ");
@@ -60,13 +60,13 @@ int main() {
 
     while (choice == 'y' || choice == 'Y') {
         printf("Enter name	: ");
-        fgets(newPerson.name, sizeof(newPerson.name), stdin);
+        fgets(newPatient.name, sizeof(newPatient.name), stdin);
         printf("Enter age	: ");
-        scanf("%d", &newPerson.age);
-        printf("Enter email	: ");
-        scanf("%s", newPerson.email);
+        scanf("%d", &newPatient.age);
+        printf("Enter gender	: ");
+        scanf("%c", newPatient.gender);
 
-        writeRecord(newPerson);
+        writeRecord(newPatient);
 
         printf("Do you want to add another record? (y/n): ");
         scanf(" %c", &choice);
