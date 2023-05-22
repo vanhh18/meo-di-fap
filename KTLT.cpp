@@ -19,7 +19,7 @@ struct Medical_Record{
     int insurance;
 };
 
-void writeRecord(struct Patient p) {
+void writeRecord(struct Medical_Record record) {
     FILE *file = fopen("records.txt", "a");
 
     if (file == NULL) {
@@ -27,13 +27,13 @@ void writeRecord(struct Patient p) {
         return;
     }
 
-    fprintf(file, "%s\t %d\t %c\n", p.name, p.age, p.gender);
+    fprintf(file, "%d\t%s\t%d\t%c\t%s\t%s\t%s\t%s\t%d\t%d\n", record.patient.ID, record.patient.name, record.patient.age, record.patient.gender, record.date, record.symptoms, record.disease, record.medications, record.instruction, record.bill, record.insurance);
 
     fclose(file);
 }
 
 void readRecords() {
-    struct Patient p;
+    struct Medical_Record record;
     FILE *file = fopen("records.txt", "r");
 
     if (file == NULL) {
@@ -41,10 +41,19 @@ void readRecords() {
         return;
     }
 
-    while (fscanf(file, "%s %d %c", p.name, &p.age, &p.gender) != EOF) {
-        printf("Name: %s\n", p.name);
-        printf("Age: %d\n", p.age);
-        printf("Gender: %c\n", p.gender);
+    while (fscanf(file, "%d %[^\t] %d %c %[^\t] %[^\t] %[^\t] %[^\t] %d %d", &record.patient.ID, record.patient.name, &record.patient.age, &record.patient.gender, record.date, record.symptoms, record.disease, record.medications, &record.bill, &record.insurance) != EOF) {
+        printf("Patient ID: %d\n", record.patient.ID);
+        printf("Name: %s\n", record.patient.name);
+        printf("Age: %d\n", record.patient.age);
+        printf("Gender: %c\n", record.patient.gender);
+        printf("Date: %s\n", record.date);
+        printf("Symptoms: %s\n", record.symptoms);
+        printf("Disease: %s\n", record.disease);
+        printf("Medications: %s\n", record.medications);
+        printf("Instruction: %s\n", record.instruction);
+        printf("Bill: %d\n", record.bill);
+        printf("Insurance: %d\n", record.insurance);
+        printf("\n");
     }
 
     fclose(file);
