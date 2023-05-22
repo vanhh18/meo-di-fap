@@ -54,10 +54,10 @@ void readRecords() {
         return;
     }
 
-    while (fscanf(file, "%s %d %c", p.name, &p.age, p.gender) != EOF) {
+    while (fscanf(file, "%s %d %c", p.name, &p.age, &p.gender) != EOF) {
         printf("Name: %s\n", p.name);
         printf("Age: %d\n", p.age);
-        printf("gender: %s\n", p.gender);
+        printf("Gender: %c\n", p.gender);
     }
 
     fclose(file);
@@ -77,7 +77,8 @@ int main() {
         printf("Enter age	: ");
         scanf("%d", &newPatient.age);
         printf("Enter gender	: ");
-        scanf("%c", newPatient.gender);
+        scanf(" %c", &newPatient.gender);
+        getchar(); // Consume newline character
 
         writeRecord(newPatient);
 
