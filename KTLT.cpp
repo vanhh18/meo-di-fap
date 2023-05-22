@@ -60,7 +60,7 @@ void readRecords() {
 }
 
 int main() {
-    struct Patient newPatient;
+    struct Medical_Record newRecord;
     char choice;
 
     printf("Do you want to add a record? (y/n): ");
@@ -68,15 +68,35 @@ int main() {
     getchar(); // Consume newline character
 
     while (choice == 'y' || choice == 'Y') {
-        printf("Enter name	: ");
-        fgets(newPatient.name, sizeof(newPatient.name), stdin);
-        printf("Enter age	: ");
-        scanf("%d", &newPatient.age);
-        printf("Enter gender	: ");
-        scanf(" %c", &newPatient.gender);
+        printf("Enter Patient ID: ");
+        scanf("%d", &newRecord.patient.ID);
         getchar(); // Consume newline character
 
-        writeRecord(newPatient);
+        printf("Enter name: ");
+        fgets(newRecord.patient.name, sizeof(newRecord.patient.name), stdin);
+        printf("Enter age: ");
+        scanf("%d", &newRecord.patient.age);
+        printf("Enter gender: ");
+        scanf(" %c", &newRecord.patient.gender);
+        getchar(); // Consume newline character
+
+        printf("Enter date: ");
+        fgets(newRecord.date, sizeof(newRecord.date), stdin);
+        printf("Enter symptoms: ");
+        fgets(newRecord.symptoms, sizeof(newRecord.symptoms), stdin);
+        printf("Enter disease: ");
+        fgets(newRecord.disease, sizeof(newRecord.disease), stdin);
+        printf("Enter medications: ");
+        fgets(newRecord.medications, sizeof(newRecord.medications), stdin);
+        printf("Enter instruction: ");
+        fgets(newRecord.instruction, sizeof(newRecord.instruction), stdin);
+        printf("Enter bill: ");
+        scanf("%d", &newRecord.bill);
+        printf("Enter insurance: ");
+        scanf("%d", &newRecord.insurance);
+        getchar(); // Consume newline character
+
+        writeRecord(newRecord);
 
         printf("Do you want to add another record? (y/n): ");
         scanf(" %c", &choice);
