@@ -27,7 +27,7 @@ void writeRecord(struct Medical_Record record) {
         return;
     }
 
-    fprintf(file, "%d\t%s\t%d\t%c\t%s\t%s\t%s\t%s\t%s\t%d\t%d\n",
+    fprintf(file, "%d\t%s\t%d\t%c\t%s\t%s\t%s\t%s\t%s\t%d\t%d\n\n",
         record.patient.ID, record.patient.name, record.patient.age, record.patient.gender,
         record.date, record.symptoms, record.disease, record.medications,
         record.instruction, record.bill, record.insurance);
