@@ -1,7 +1,20 @@
 #include <stdio.h>
 
+struct Medicine{
+    char medicine_name[50];
+    int dose;
+    char instruction[50];
+};
+
 struct Medical_Record{
-	
+	char allergies[50];         // medicines, food, other substances
+    char test_result[50];       // blood tests, X-rays, etc.
+    char mental_health[50];     // anxiety or depression
+    char medical_problem[50];   // asthma, epilepsy, or diabetes
+    char disease[50];           
+    struct Medicine med;
+    int bill;
+    int insurance;
 };
 
 struct Date{
