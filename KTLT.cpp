@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <string.h>
+
 struct Patient {
     int ID;
     char name[50];
@@ -61,42 +61,6 @@ void readRecords() {
 
     fclose(file);
 }
-void searchByDisease(const char* disease) {
-    struct Medical_Record record;
-    FILE *file = fopen("records.txt", "r");
-
-    if (file == NULL) {
-        printf("Error opening file.\n");
-        return;
-    }
-
-    int found = 0;
-
-   while (fscanf(file, "%s %d %c %[^\n] %[^\n] %[^\n] %[^\n] %[^\n] %d %d", record.patient.name, &record.patient.age, &record.patient.gender, record.date, record.symptoms, record.disease, record.medications, record.instruction, &record.bill, &record.insurance) != EOF) {
-        if (strcmp(record.disease, disease) == 0) {
-            printf("Record Found:\n");
-            printf("Name: %s\n", record.patient.name);
-            printf("Age: %d\n", record.patient.age);
-            printf("Gender: %c\n", record.patient.gender);
-            printf("Date: %s\n", record.date);
-            printf("Symptoms: %s\n", record.symptoms);
-            printf("Disease: %s\n", record.disease);
-            printf("Medications: %s\n", record.medications);
-            printf("Instructions: %s\n", record.instruction);
-            printf("Bill: %d\n", record.bill);
-            printf("Insurance: %d\n", record.insurance);
-            printf("----------------------\n");
-
-            found = 1;
-        }
-    }
-
-    if (!found) {
-        printf("No records found for the given disease.\n");
-    }
-
-    fclose(file);
-}
 
 int main() {
     struct Medical_Record newRecord;
@@ -144,11 +108,6 @@ int main() {
     
     printf("Records:\n");
     readRecords();
-      char searchDisease[50];
-    printf("Enter a disease to search for: ");
-    fgets(searchDisease, sizeof(searchDisease), stdin);
-    searchByDisease(searchDisease);
-
 
     return 0;
 }
