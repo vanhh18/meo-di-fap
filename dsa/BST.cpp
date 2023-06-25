@@ -20,7 +20,7 @@ node *makeNode(int data)
 }
 
 //chèn node
-node* Insert(node *root, int data)
+node* Insert(node *&root, int data)
 {
     if(root == NULL)
     {
