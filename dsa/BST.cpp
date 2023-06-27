@@ -21,7 +21,7 @@ node *makeNode(int data)
 }
 
 //Insert node
-node* Insert(node *root, int data)
+node* Insert(node *&root, int data)
 {
     if(root == NULL) //empty tree
     {
