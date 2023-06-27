@@ -1,4 +1,5 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <algorithm>
 using namespace std;
 
 typedef struct node
@@ -8,7 +9,7 @@ typedef struct node
     struct node *right;
 }node;
 
-//tạo node 
+//Create a node 
 node *makeNode(int data)
 {
     // node *newNode = (node*)malloc(sizeof(node));
@@ -19,10 +20,10 @@ node *makeNode(int data)
     return newNode;
 }
 
-//chèn node
-node* Insert(node *&root, int data)
+//Insert node
+node* Insert(node *root, int data)
 {
-    if(root == NULL)
+    if(root == NULL) //empty tree
     {
         root = makeNode(data);
     }
@@ -37,13 +38,21 @@ node* Insert(node *&root, int data)
     return root;
 }
 
-//tìm node
+//Find node
 bool Search(node *root, int data)
 {
     if(root == NULL) return false;
     else if(root -> data == data) return true;
     else if(data <= root -> data) return Search(root -> left, data);
     else return Search(root -> right, data);
+}
+
+//Find height
+int FindHeight(node *root)
+{
+    if(root == NULL)
+        return -1;
+    return max(FindHeight(root->left),FindHeight(root->right)) + 1;
 }
 
 node *FindMin(node *root)
@@ -64,6 +73,7 @@ node *FindMax(node *root)
     return root;
 }
 
+//Delete node
 node *Delete(node *&root, int data)
 {
     if(root == NULL) return root;
@@ -143,12 +153,24 @@ int main()
 	root = Insert(root,20);
 	root = Insert(root,25);
 	root = Insert(root,8);
-	root = Insert(root,12);
+	root = Insert(root,13);
+    root = Insert(root,23);
+    root = Insert(root,17);
+    root = Insert(root,26);
+    root = Insert(root,30);
     cout << "inorder: ";
     traversal_inorder(root);
     cout << "\npreorder: ";
     traversal_preorder(root);
     cout << "\npostorder: ";
     traversal_postorder(root);
+    // Ask user to enter a number.  
+	int number;
+	cout<<"Enter number be searched\n";
+	cin>>number;
+	//If number is found, print "FOUND"
+	if(Search(root,number) == true) cout<<"Found\n";
+	else cout<<"Not Found\n";
+    cout << FindHeight(root) << endl;
     return 0;
 }
