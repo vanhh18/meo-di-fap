@@ -114,10 +114,7 @@ node *Delete(node *&root, int data)
 //inorder: left -> root -> right
 void traversal_inorder(node* root)
 {
-    if(root == NULL)
-    {
-        return;
-    }
+    if(root == NULL) return;
     traversal_inorder(root -> left);
     cout << root -> data << " ";
     traversal_inorder(root -> right);
@@ -126,10 +123,7 @@ void traversal_inorder(node* root)
 //preorder: root -> left -> right
 void traversal_preorder(node* root)
 {
-    if(root == NULL)
-    {
-        return;
-    }
+    if(root == NULL) return;
     cout << root -> data << " ";
     traversal_preorder(root -> left);
     traversal_preorder(root -> right);
@@ -137,10 +131,7 @@ void traversal_preorder(node* root)
 //postorder left -> right -> root
 void traversal_postorder(node* root)
 {
-    if(root == NULL)
-    {
-        return;
-    }
+    if(root == NULL) return;
     traversal_postorder(root -> left); 
     traversal_postorder(root -> right);
     cout << root -> data << " ";
