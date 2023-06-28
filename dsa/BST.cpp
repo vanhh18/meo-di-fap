@@ -150,6 +150,9 @@ int main()
     Insert(root,26);
     Insert(root,30);
     Insert(root,35);
+    Insert(root,12);
+    Insert(root,14);
+    Delete(root,10);
     cout << "inorder: ";
     traversal_inorder(root);
     cout << "\npreorder: ";
