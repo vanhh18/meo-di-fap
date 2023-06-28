@@ -148,16 +148,17 @@ void traversal_postorder(node* root)
 int main()
 {
     node* root = NULL;
-    root = Insert(root,15);	
-	root = Insert(root,10);	
-	root = Insert(root,20);
-	root = Insert(root,25);
-	root = Insert(root,8);
-	root = Insert(root,13);
-    root = Insert(root,23);
-    root = Insert(root,17);
-    root = Insert(root,26);
-    root = Insert(root,30);
+    Insert(root,15);	
+	Insert(root,10);	
+	Insert(root,20);
+	Insert(root,25);
+	Insert(root,8);
+	Insert(root,13);
+    Insert(root,23);
+    Insert(root,17);
+    Insert(root,26);
+    Insert(root,30);
+    Insert(root,35);
     cout << "inorder: ";
     traversal_inorder(root);
     cout << "\npreorder: ";
