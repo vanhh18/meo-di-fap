@@ -140,9 +140,7 @@ void traversal_postorder(node* root)
 
 void store_inorder(node* root, vector<int>& sortedArray)
 {
-    if (root == NULL)
-        return;
-
+    if (root == NULL) return;
     store_inorder(root->left, sortedArray);
     sortedArray.push_back(root->data);
     store_inorder(root->right, sortedArray);
