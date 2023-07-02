@@ -152,10 +152,8 @@ node* BuildBalancedBST(vector<int>& sortedArray, int start, int end)
     if (start > end) return NULL;
     int mid = (start + end) / 2;
     node* newNode = makeNode(sortedArray[mid]);
-
     newNode->left = BuildBalancedBST(sortedArray, start, mid - 1);
     newNode->right = BuildBalancedBST(sortedArray, mid + 1, end);
-
     return newNode;
 }
 
@@ -164,7 +162,6 @@ node* BalanceTree(node* root)
 {
     vector<int> sortedArray;
     store_inorder(root, sortedArray);
-
     return BuildBalancedBST(sortedArray, 0, sortedArray.size() - 1);
 }
 
