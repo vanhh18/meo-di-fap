@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <vector>
 using namespace std;
 
 typedef struct node
@@ -66,7 +67,7 @@ node *FindMin(node *root)
 
 node *FindMax(node *root)
 {
-    while(root -> right == NULL)
+    while(root -> right != NULL)
     {
         root = root -> right;
     }
@@ -136,23 +137,54 @@ void traversal_postorder(node* root)
     traversal_postorder(root -> right);
     cout << root -> data << " ";
 }
+
+void store_inorder(node* root, vector<int>& sortedArray)
+{
+    if (root == NULL)
+        return;
+
+    store_inorder(root->left, sortedArray);
+    sortedArray.push_back(root->data);
+    store_inorder(root->right, sortedArray);
+}
+
+// Function to construct a balanced BST from a sorted array
+node* BuildBalancedBST(vector<int>& sortedArray, int start, int end)
+{
+    if (start > end) return NULL;
+    int mid = (start + end) / 2;
+    node* newNode = makeNode(sortedArray[mid]);
+
+    newNode->left = BuildBalancedBST(sortedArray, start, mid - 1);
+    newNode->right = BuildBalancedBST(sortedArray, mid + 1, end);
+
+    return newNode;
+}
+
+// Function to balance the binary search tree
+node* BalanceTree(node* root)
+{
+    vector<int> sortedArray;
+    store_inorder(root, sortedArray);
+
+    return BuildBalancedBST(sortedArray, 0, sortedArray.size() - 1);
+}
+
 int main()
 {
     node* root = NULL;
-    Insert(root,15);	
-	Insert(root,10);	
-	Insert(root,20);
-	Insert(root,25);
-	Insert(root,8);
-	Insert(root,13);
-    Insert(root,23);
-    Insert(root,17);
-    Insert(root,26);
-    Insert(root,30);
-    Insert(root,35);
+    Insert(root,1);	
+	Insert(root,2);	
+	Insert(root,3);
+	Insert(root,4);
+	Insert(root,5);
+	Insert(root,6);
+    Insert(root,7);
+    Insert(root,8);
+    Insert(root,9);
+    Insert(root,10);
     Insert(root,12);
-    Insert(root,14);
-    Delete(root,10);
+    Delete(root,12);
     cout << "inorder: ";
     traversal_inorder(root);
     cout << "\npreorder: ";
@@ -167,5 +199,14 @@ int main()
 	if(Search(root,number) == true) cout<<"Found\n";
 	else cout<<"Not Found\n";
     cout << FindHeight(root) << endl;
+    vector<int> sortedArray;
+    store_inorder(root, sortedArray);
+    root = BalanceTree(root);
+    cout << "inorder: ";
+    traversal_inorder(root);
+    cout << "\npreorder: ";
+    traversal_preorder(root);
+    cout << "\npostorder: ";
+    traversal_postorder(root);
     return 0;
 }
