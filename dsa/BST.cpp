@@ -165,56 +165,58 @@ node* BalanceTree(node* root)
     return BuildBalancedBST(sortedArray, 0, sortedArray.size() - 1);
 }
 
+
+
 int main()
 {
-    node* root = NULL;
-    Insert(root, "ATCG");
-    Insert(root, "CGTA");
-    Insert(root, "TACG");
-    Insert(root, "GCAT");
-    Insert(root, "GCTA");
-    Insert(root, "CATG");
-    Insert(root, "ACTG");
-    Insert(root, "ATGC");
+    // node* root = NULL;
+    // Insert(root, "ATCG");
+    // Insert(root, "CGTA");
+    // Insert(root, "TACG");
+    // Insert(root, "GCAT");
+    // Insert(root, "GCTA");
+    // Insert(root, "CATG");
+    // Insert(root, "ACTG");
+    // Insert(root, "ATGC");
 
-    cout << "Inorder traversal: ";
-    traversal_inorder(root);
-    cout << endl;
+    // cout << "Inorder traversal: ";
+    // traversal_inorder(root);
+    // cout << endl;
 
-    cout << "Preorder traversal: ";
-    traversal_preorder(root);
-    cout << endl;
+    // cout << "Preorder traversal: ";
+    // traversal_preorder(root);
+    // cout << endl;
 
-    cout << "Postorder traversal: ";
-    traversal_postorder(root);
-    cout << endl;
+    // cout << "Postorder traversal: ";
+    // traversal_postorder(root);
+    // cout << endl;
 
-    string searchString;
-    cout << "Enter a string to search: ";
-    cin >> searchString;
-    if (Search(root, searchString))
-        cout << "String found!" << endl;
-    else
-        cout << "String not found!" << endl;
+    // string searchString;
+    // cout << "Enter a string to search: ";
+    // cin >> searchString;
+    // if (Search(root, searchString))
+    //     cout << "String found!" << endl;
+    // else
+    //     cout << "String not found!" << endl;
 
-    cout << "Height of the tree: " << FindHeight(root) << endl;
+    // cout << "Height of the tree: " << FindHeight(root) << endl;
 
-    vector<string> sortedArray;
-    store_inorder(root, sortedArray);
-    root = BalanceTree(root);
+    // vector<string> sortedArray;
+    // store_inorder(root, sortedArray);
+    // root = BalanceTree(root);
 
-    cout << "Inorder traversal after balancing the tree: ";
-    traversal_inorder(root);
-    cout << endl;
+    // cout << "Inorder traversal after balancing the tree: ";
+    // traversal_inorder(root);
+    // cout << endl;
 
-    cout << "Preorder traversal after balancing the tree: ";
-    traversal_preorder(root);
-    cout << endl;
+    // cout << "Preorder traversal after balancing the tree: ";
+    // traversal_preorder(root);
+    // cout << endl;
 
-    cout << "Postorder traversal after balancing the tree: ";
-    traversal_postorder(root);
-    cout << endl;
-    cout << "Height of the tree: " << FindHeight(root) << endl;
+    // cout << "Postorder traversal after balancing the tree: ";
+    // traversal_postorder(root);
+    // cout << endl;
+    // cout << "Height of the tree: " << FindHeight(root) << endl;
 
     return 0;
 }
