@@ -9,8 +9,8 @@ string binaryToATGC(const string& binaryString) {
     string atgcString;
     size_t length = binaryString.length();
 
-    if (length % 2 != 0) {
-        cerr << "Invalid binary string length. Length must be a multiple of 2." << endl;
+    if (length % 8 != 0) {
+        cerr << "Invalid binary string length. Length must be a multiple of 8." << endl;
         return atgcString;
     }
 
@@ -42,7 +42,7 @@ string binaryToATGC(const string& binaryString) {
     return atgcString;
 }
 
-vector<string> separateByFour(const string& binaryStrings) {
+vector<string> separateByEight(const string& binaryStrings) {
     vector<string> separatedStrings;
 
     size_t length = binaryStrings.length();
@@ -69,7 +69,7 @@ int main() {
     string binaryStrings;
     getline(inputFile, binaryStrings);
 
-    vector<string> separatedStrings = separateByFour(binaryStrings);
+    vector<string> separatedStrings = separateByEight(binaryStrings);
 
     for (const auto& atgcString : separatedStrings) {
         cout << "ATGC String: " << atgcString << endl;

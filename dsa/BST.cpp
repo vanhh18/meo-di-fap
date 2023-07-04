@@ -1,6 +1,8 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <fstream>
+#include <string>
 using namespace std;
 
 typedef struct node
@@ -8,7 +10,19 @@ typedef struct node
     string data;
     struct node *left;
     struct node *right;
+    // Destructor to free memory
+    ~node()
+    {
+        delete left;
+        delete right;
+    }
 }node;
+
+// Function to free the memory allocated for the tree
+void FreeTree(node* root)
+{
+    delete root;
+}
 
 //Create a node 
 node *makeNode(const string& data)
@@ -165,11 +179,61 @@ node* BalanceTree(node* root)
     return BuildBalancedBST(sortedArray, 0, sortedArray.size() - 1);
 }
 
+string binaryToATGC(const string& binaryString) {
+    string atgcString;
+    size_t length = binaryString.length();
 
+    if (length % 8 != 0) {
+        cerr << "Invalid binary string length. Length must be a multiple of 8." << endl;
+        return atgcString;
+    }
+
+    for (size_t i = 0; i < length; i += 2) {
+        string nucleotide;
+
+        if (binaryString[i] == '0') {
+            if (binaryString[i + 1] == '0') {
+                nucleotide = "A";
+            } else if (binaryString[i + 1] == '1') {
+                nucleotide = "C";
+            }
+        } else if (binaryString[i] == '1') {
+            if (binaryString[i + 1] == '0') {
+                nucleotide = "G";
+            } else if (binaryString[i + 1] == '1') {
+                nucleotide = "T";
+            }
+        }
+
+        if (!nucleotide.empty()) {
+            atgcString += nucleotide;
+        } else {
+            cerr << "Invalid binary string. Only '0' and '1' characters are allowed." << endl;
+            return "";
+        }
+    }
+
+    return atgcString;
+}
+
+vector<string> convertToDNA(const string& binaryStrings) {
+    vector<string> dnaString;
+
+    size_t length = binaryStrings.length();
+    size_t numStrings = length / 8;
+
+    for (size_t i = 0; i < numStrings; ++i) {
+        string binaryString = binaryStrings.substr(i * 8, 8);
+        string atgcString = binaryToATGC(binaryString);
+        dnaString.push_back(atgcString);
+    }
+
+    return dnaString;
+}
 
 int main()
 {
-    // node* root = NULL;
+    node* root = NULL;
     // Insert(root, "ATCG");
     // Insert(root, "CGTA");
     // Insert(root, "TACG");
@@ -179,44 +243,62 @@ int main()
     // Insert(root, "ACTG");
     // Insert(root, "ATGC");
 
-    // cout << "Inorder traversal: ";
-    // traversal_inorder(root);
-    // cout << endl;
+    ifstream inputFile("Binary.txt");
+    if (!inputFile) {
+        cerr << "Failed to open the input file " << endl;
+        return 1;
+    }
 
-    // cout << "Preorder traversal: ";
-    // traversal_preorder(root);
-    // cout << endl;
+    string line;
+    while (getline(inputFile, line)) {
+        vector<string> dnaString = convertToDNA(line);
 
-    // cout << "Postorder traversal: ";
-    // traversal_postorder(root);
-    // cout << endl;
+        for (const string& atgcString : dnaString) {
+            Insert(root, atgcString);
+        }
+    }
 
-    // string searchString;
-    // cout << "Enter a string to search: ";
-    // cin >> searchString;
-    // if (Search(root, searchString))
-    //     cout << "String found!" << endl;
-    // else
-    //     cout << "String not found!" << endl;
+    inputFile.close();
+    cout << "Inorder traversal: ";
+    traversal_inorder(root);
+    cout << endl;
 
-    // cout << "Height of the tree: " << FindHeight(root) << endl;
+    cout << "Preorder traversal: ";
+    traversal_preorder(root);
+    cout << endl;
 
-    // vector<string> sortedArray;
-    // store_inorder(root, sortedArray);
-    // root = BalanceTree(root);
+    cout << "Postorder traversal: ";
+    traversal_postorder(root);
+    cout << endl;
 
-    // cout << "Inorder traversal after balancing the tree: ";
-    // traversal_inorder(root);
-    // cout << endl;
+    string searchString;
+    cout << "Enter a string to search: ";
+    cin >> searchString;
+    if (Search(root, searchString))
+        cout << "String found!" << endl;
+    else
+        cout << "String not found!" << endl;
 
-    // cout << "Preorder traversal after balancing the tree: ";
-    // traversal_preorder(root);
-    // cout << endl;
+    cout << "Height of the tree: " << FindHeight(root) << endl;
 
-    // cout << "Postorder traversal after balancing the tree: ";
-    // traversal_postorder(root);
-    // cout << endl;
-    // cout << "Height of the tree: " << FindHeight(root) << endl;
+    vector<string> sortedArray;
+    store_inorder(root, sortedArray);
+    root = BalanceTree(root);
+
+    cout << "Inorder traversal after balancing the tree: ";
+    traversal_inorder(root);
+    cout << endl;
+
+    cout << "Preorder traversal after balancing the tree: ";
+    traversal_preorder(root);
+    cout << endl;
+
+    cout << "Postorder traversal after balancing the tree: ";
+    traversal_postorder(root);
+    cout << endl;
+    cout << "Height of the tree: " << FindHeight(root) << endl;
+    // Free memory
+    FreeTree(root);
 
     return 0;
 }
