@@ -220,11 +220,11 @@ vector<string> convertToDNA(const string& binaryStrings) {
     vector<string> dnaString;
 
     size_t length = binaryStrings.length();
-    size_t numStrings = length / 8;
+    size_t numPixels = length / 8;
 
-    for (size_t i = 0; i < numStrings; ++i) {
-        string binaryString = binaryStrings.substr(i * 8, 8);
-        string atgcString = binaryToATGC(binaryString);
+    for (size_t i = 0; i < numPixels; ++i) {
+        string binaryStr = binaryStrings.substr(i * 8, 8);
+        string atgcString = binaryToATGC(binaryStr);
         dnaString.push_back(atgcString);
     }
 
