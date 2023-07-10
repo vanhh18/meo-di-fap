@@ -1,5 +1,6 @@
 {
     "files.associations": {
         "iostream": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "C:/Users/Lenovo/Desktop/Study/CODE/C/.vscode/meo-di-fap/dsa"
 }

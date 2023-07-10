@@ -277,181 +277,90 @@ vector<string> convertToDNA(const string& binaryStrings)
 
     return dnaString;
 }
-string xorDNASequences(const vector<string>& dnaString, const string& dnaSeq2)
+
+string xorNucleotides(char nucleotide1, char nucleotide2)
+{
+    if (nucleotide1 == 'A')
+    {   
+        if (nucleotide2 == 'A')
+            return "A";
+        if (nucleotide2 == 'T')
+            return "T";
+        else if (nucleotide2 == 'C')
+            return "C";
+        else if (nucleotide2 == 'G')
+            return "G";
+    }
+    else if (nucleotide1 == 'T')
+    {
+        if (nucleotide2 == 'A')
+            return "T";
+        else if (nucleotide2 == 'T')
+            return "A";
+        else if (nucleotide2 == 'C')
+            return "G";
+        else if (nucleotide2 == 'G')
+            return "C";
+    }
+    else if (nucleotide1 == 'C')
+    {
+        if (nucleotide2 == 'A')
+            return "C";
+        else if (nucleotide2 == 'T')
+            return "G";
+        else if (nucleotide2 == 'C')
+            return "A";
+        else if (nucleotide2 == 'G')
+            return "T";
+    }
+    else if (nucleotide1 == 'G')
+    {
+        if (nucleotide2 == 'A')
+            return "G";
+        else if (nucleotide2 == 'T')
+            return "C";
+        else if (nucleotide2 == 'C')
+            return "T";
+        else if (nucleotide2 == 'G')
+            return "A";
+    }
+
+    // Return an empty string for invalid nucleotides
+    return "";
+}
+
+vector<string> xorDNASequences(const vector<string>& dnaString, const string& dnaSeq2)
 {
     size_t numSequences = dnaString.size();
-
-    if (numSequences == 0 || dnaSeq2.length() == 0)
-    {
-        cerr << "Error: DNA sequences must not be empty for XOR operation." << endl;
-        return "";
-    }
-
     size_t seqLength = dnaString[0].length();
-
-    for (size_t i = 1; i < numSequences; ++i)
-    {
-        if (dnaString[i].length() != seqLength)
-        {
-            cerr << "Error: All DNA sequences must have the same length for XOR operation." << endl;
-            return "";
-        }
-    }
 
     if (seqLength != dnaSeq2.length())
     {
         cerr << "Error: DNA sequences must have the same length for XOR operation." << endl;
-        return "";
+        return {};
     }
 
-    string xorResult;
-    size_t length = seqLength;
+    vector<string> xorResults(numSequences);
 
-    for (size_t i = 0; i < length; ++i)
+    for (size_t i = 0; i < numSequences; ++i)
     {
-        char xorNucleotide = dnaString[0][i];
-
-        for (size_t j = 1; j < numSequences; ++j)
+        const string& sequence = dnaString[i];
+        string xorResult;
+        
+        for (size_t j = 0; j < seqLength; ++j)
         {
-            char nucleotide = dnaString[j][i];
+            char nucleotide1 = sequence[j];
+            char nucleotide2 = dnaSeq2[j];
 
-            if (nucleotide == xorNucleotide)
-            {
-                xorNucleotide = 'A';
-            }
-            else if (xorNucleotide == 'A' && nucleotide == 'T')
-            {
-                xorNucleotide = 'T';
-            }
-            else if (xorNucleotide == 'A' && nucleotide == 'C')
-            {
-                xorNucleotide = 'C';
-            }
-            else if (xorNucleotide == 'A' && nucleotide == 'G')
-            {
-                xorNucleotide = 'G';
-            }
-            else if (xorNucleotide == 'T' && nucleotide == 'A')
-            {
-                xorNucleotide = 'T';
-            }
-            else if (xorNucleotide == 'T' && nucleotide == 'T')
-            {
-                xorNucleotide = 'A';
-            }
-            else if (xorNucleotide == 'T' && nucleotide == 'C')
-            {
-                xorNucleotide = 'G';
-            }
-            else if (xorNucleotide == 'T' && nucleotide == 'G')
-            {
-                xorNucleotide = 'C';
-            }
-            else if (xorNucleotide == 'C' && nucleotide == 'A')
-            {
-                xorNucleotide = 'C';
-            }
-            else if (xorNucleotide == 'C' && nucleotide == 'T')
-            {
-                xorNucleotide = 'G';
-            }
-            else if (xorNucleotide == 'C' && nucleotide == 'C')
-            {
-                xorNucleotide = 'A';
-            }
-            else if (xorNucleotide == 'C' && nucleotide == 'G')
-            {
-                xorNucleotide = 'T';
-            }
-            else if (xorNucleotide == 'G' && nucleotide == 'A')
-            {
-                xorNucleotide = 'G';
-            }
-            else if (xorNucleotide == 'G' && nucleotide == 'T')
-            {
-                xorNucleotide = 'C';
-            }
-            else if (xorNucleotide == 'G' && nucleotide == 'C')
-            {
-                xorNucleotide = 'T';
-            }
-            else if (xorNucleotide == 'G' && nucleotide == 'G')
-            {
-                xorNucleotide = 'A';
-            }
+            string xorNucleotide = xorNucleotides(nucleotide1, nucleotide2);
+
+            xorResult += xorNucleotide;
         }
 
-        char targetNucleotide = dnaSeq2[i];
-
-        if (xorNucleotide == targetNucleotide)
-        {
-            xorNucleotide = 'A';
-        }
-        else if (xorNucleotide == 'A' && targetNucleotide == 'T')
-        {
-            xorNucleotide = 'T';
-        }
-        else if (xorNucleotide == 'A' && targetNucleotide == 'C')
-        {
-            xorNucleotide = 'C';
-        }
-        else if (xorNucleotide == 'A' && targetNucleotide == 'G')
-        {
-            xorNucleotide = 'G';
-        }
-        else if (xorNucleotide == 'T' && targetNucleotide == 'A')
-        {
-            xorNucleotide = 'T';
-        }
-        else if (xorNucleotide == 'T' && targetNucleotide == 'T')
-        {
-            xorNucleotide = 'A';
-        }
-        else if (xorNucleotide == 'T' && targetNucleotide == 'C')
-        {
-            xorNucleotide = 'G';
-        }
-        else if (xorNucleotide == 'T' && targetNucleotide == 'G')
-        {
-            xorNucleotide = 'C';
-        }
-        else if (xorNucleotide == 'C' && targetNucleotide == 'A')
-        {
-            xorNucleotide = 'C';
-        }
-        else if (xorNucleotide == 'C' && targetNucleotide == 'T')
-        {
-            xorNucleotide = 'G';
-        }
-        else if (xorNucleotide == 'C' && targetNucleotide == 'C')
-        {
-            xorNucleotide = 'A';
-        }
-        else if (xorNucleotide == 'C' && targetNucleotide == 'G')
-        {
-            xorNucleotide = 'T';
-        }
-        else if (xorNucleotide == 'G' && targetNucleotide == 'A')
-        {
-            xorNucleotide = 'G';
-        }
-        else if (xorNucleotide == 'G' && targetNucleotide == 'T')
-        {
-            xorNucleotide = 'C';
-        }
-        else if (xorNucleotide == 'G' && targetNucleotide == 'C')
-        {
-            xorNucleotide = 'T';
-        }
-        else if (xorNucleotide == 'G' && targetNucleotide == 'G')
-        {
-            xorNucleotide = 'A';
-        }
-
-        xorResult += xorNucleotide;
+        xorResults[i] = xorResult;
     }
 
-    return xorResult;
+    return xorResults;
 }
 
 
@@ -465,26 +374,25 @@ int main()
     }
 
     string binaryString = convertToBinary(image);
-    // saveBinaryStringToFile(binaryString, "binary.txt");
 
     vector<string> dnaString = convertToDNA(binaryString);
-    string xorSequence = "ATCG";
-    for (const string& sequence : dnaString)
-    {
-        string xorResult = xorDNASequences(vector<string>{sequence}, xorSequence);
-        cout << xorResult << " ";
-    }   
 
-    // cout << "DNA Strings:" << endl;
-    // for (const string& dna : dnaString)
-    // {
-    //     cout << dna << " ";
-    // }
+    vector<string> xorResults = dnaString;
+
+    xorResults = xorDNASequences(xorResults, "ATGC");
+
+    xorResults = xorDNASequences(xorResults, "TTTT");
+
+    for (const string& result : xorResults)
+    {
+        cout << result << " ";
+    }
+
 
     node* root = NULL;
-    for (const string& dna : dnaString)
+    for (const string& result : xorResults)
     {
-        Insert(root, dna);
+        Insert(root, result);
     }
 
     // cout << "Inorder traversal of the BST: ";
