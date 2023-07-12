@@ -18,30 +18,33 @@ public:
         this->disease = disease;
     }
 
-    string getRecordID() const {return recordID;}
+    string getRecordID() const {
+        return recordID;
+    }
 
-    string getDate() const {return date;}
+    string getDate() const {
+        return date;
+    }
 
-    string getDisease() const {return disease;}
-
-    
+    string getDisease() const {
+        return disease;
+    }
 };
 
 class Patient {
 private:
     vector<HealthRecord> records;
-    string patientID;
     string fileName;
 
 public:
-    Patient(const string& patientID, const string& filename);
+    Patient(const string& filename);
     void addRecord();
     void searchByDate();
     void searchByDisease();
     void saveToFile();
 };
 
-Patient::Patient(const string& patientID, const string& filename) : patientID(patientID), fileName(filename) {}
+Patient::Patient(const string& filename) : fileName(filename) {}
 
 void Patient::addRecord() {
     system("cls");
@@ -120,10 +123,7 @@ void Patient::saveToFile() {
 }
 
 int main() {
-    string patientID;
-    cout << "Enter patient ID: ";
-    cin >> patientID;
-    Patient patient(patientID, "health_records.txt");
+    Patient patient("health_records.txt");
 
     int choice;
     do {
