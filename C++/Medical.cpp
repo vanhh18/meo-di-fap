@@ -7,15 +7,26 @@ using namespace std;
 
 class HealthRecord {
 private:
+    string patientID;
+    string patientName;
     string recordID;
     string date;
     string disease;
-
 public:
-    HealthRecord(const string& recordID, const string& date, const string& disease) {
+    HealthRecord(const string& patientID, const string& patientName, const string& recordID, const string& date, const string& disease) {
+        this->patientID = patientID;
+        this->patientName = patientName;
         this->recordID = recordID;
         this->date = date;
         this->disease = disease;
+    }
+
+    string getPatientID() const {
+        return patientID;
+    }
+
+    string getPatientName() const {
+        return patientName;
     }
 
     string getRecordID() const {
@@ -31,29 +42,27 @@ public:
     }
 };
 
-class Patient {
+class MedicalSystem {
 private:
     vector<HealthRecord> records;
     string fileName;
-
 public:
-    Patient(const string& filename);
+    MedicalSystem(const string& filename);
     void addRecord();
+    void searchByPatientID();
     void searchByDate();
     void searchByDisease();
     void searchByRecordID();
     void saveToFile();
     void readFromFile();
     void removeRecordByID();
-    
 };
 
-Patient::Patient(const string& filename) : fileName(filename) {
+MedicalSystem::MedicalSystem(const string& filename) : fileName(filename) {
     readFromFile();
 }
 
-
-void Patient::saveToFile() {
+void MedicalSystem::saveToFile() {
     ofstream outputFile(fileName);
 
     if (!outputFile) {
@@ -62,7 +71,9 @@ void Patient::saveToFile() {
     }
 
     for (const auto& record : records) {
-        outputFile << "Record ID: " << record.getRecordID() << ", Date: " << record.getDate() << ", Disease: " << record.getDisease() << endl;
+        outputFile << "Patient ID: " << record.getPatientID() << ", Patient Name: " << record.getPatientName()
+                   << ", Record ID: " << record.getRecordID() << ", Date: " << record.getDate()
+                   << ", Disease: " << record.getDisease() << endl;
     }
 
     outputFile.close();
@@ -70,7 +81,7 @@ void Patient::saveToFile() {
 }
 
 
-void Patient::readFromFile() {
+void MedicalSystem::readFromFile() {
     ifstream inputFile(fileName);
     if (!inputFile) {
         cout << "Error opening file." << endl;
@@ -79,18 +90,23 @@ void Patient::readFromFile() {
 
     string recordLine;
     while (getline(inputFile, recordLine)) {
-        // Parse the record line and extract record ID, date, and disease
-        // Assuming the record line has the format: "Record ID: <id>, Date: <date>, Disease: <disease>"
-        size_t idPos = recordLine.find(": ");
+        // Parse the record line and extract patient ID, patient name, record ID, date, and disease
+        // Assuming the record line has the format: "Patient ID: <id>, Patient Name: <name>, Record ID: <id>, Date: <date>, Disease: <disease>"
+        size_t patientIDPos = recordLine.find(": ");
+        size_t patientNamePos = recordLine.find(", Patient Name: ");
+        size_t recordIDPos = recordLine.find(", Record ID: ");
         size_t datePos = recordLine.find(", Date: ");
         size_t diseasePos = recordLine.find(", Disease: ");
 
-        if (idPos != string::npos && datePos != string::npos && diseasePos != string::npos) {
-            string recordID = recordLine.substr(idPos + 2, datePos - idPos - 2);
+        if (patientIDPos != string::npos && patientNamePos != string::npos && recordIDPos != string::npos &&
+            datePos != string::npos && diseasePos != string::npos) {
+            string patientID = recordLine.substr(patientIDPos + 2, patientNamePos - patientIDPos - 2);
+            string patientName = recordLine.substr(patientNamePos + 16, recordIDPos - patientNamePos - 16);
+            string recordID = recordLine.substr(recordIDPos + 13, datePos - recordIDPos - 13);
             string date = recordLine.substr(datePos + 8, diseasePos - datePos - 8);
             string disease = recordLine.substr(diseasePos + 11);
 
-            HealthRecord newRecord(recordID, date, disease);
+            HealthRecord newRecord(patientID, patientName, recordID, date, disease);
             records.push_back(newRecord);
         }
     }
@@ -98,24 +114,28 @@ void Patient::readFromFile() {
     inputFile.close();
 }
 
-void Patient::addRecord() {
+void MedicalSystem::addRecord() {
     system("cls");
-    string recordID, date, disease;
-    cout << "Enter record ID: ";
-    cin >> recordID;
-    cout << "Enter date: ";
+    string patientID, patientName, recordID, date, disease;
+    cout << "Enter patient ID: ";
+    cin >> patientID;
+    cout << "Enter patient name: ";
     cin.ignore();
+    getline(cin, patientName);
+    cout << "Enter record ID: ";
+    getline(cin, recordID);
+    cout << "Enter date: ";
     getline(cin, date);
     cout << "Enter disease: ";
     getline(cin, disease);
 
-    HealthRecord newRecord(recordID, date, disease);
+    HealthRecord newRecord(patientID, patientName, recordID, date, disease);
     records.push_back(newRecord);
     cout << "Record added successfully!" << endl;
     saveToFile();
 }
 
-void Patient::removeRecordByID() {
+void MedicalSystem::removeRecordByID() {
     system("cls");
     string removeRecordID;
     cout << "Enter record ID to remove: ";
@@ -123,7 +143,7 @@ void Patient::removeRecordByID() {
     getline(cin, removeRecordID);
     bool found = false;
 
-    for (auto i = records.begin(); i!= records.end(); ++i) {
+    for (auto i = records.begin(); i != records.end(); ++i) {
         if (i->getRecordID() == removeRecordID) {
             records.erase(i);
             found = true;
@@ -139,8 +159,33 @@ void Patient::removeRecordByID() {
     }
 }
 
+void MedicalSystem::searchByPatientID() {
+    system("cls");
+    string searchPatientID;
+    cout << "Enter patient ID: ";
+    cin.ignore();
+    getline(cin, searchPatientID);
+    bool found = false;
 
-void Patient::searchByRecordID() {
+    for (const auto& record : records) {
+        if (record.getPatientID() == searchPatientID) {
+            if (!found) {
+                cout << "Records for patient with ID " << searchPatientID << ":" << endl;
+                cout << "----------------------" << endl;
+                found = true;
+            }
+            cout << "Patient ID: " << record.getPatientID() << ", Patient Name: " << record.getPatientName()
+                 << ", Record ID: " << record.getRecordID() << ", Date: " << record.getDate()
+                 << ", Disease: " << record.getDisease() << endl;
+        }
+    }
+
+    if (!found) {
+        cout << "No records found for the given patient ID." << endl;
+    }
+}
+
+void MedicalSystem::searchByRecordID() {
     system("cls");
     string searchRecordID;
     cout << "Enter record ID: ";
@@ -155,7 +200,9 @@ void Patient::searchByRecordID() {
                 cout << "----------------------" << endl;
                 found = true;
             }
-            cout << "Record ID: " << i->getRecordID() << ", Date: " << i->getDate() << ", Disease: " << i->getDisease() << endl;
+            cout << "Record ID: " << i->getRecordID() << ", Patient ID: " << i->getPatientID()
+                 << ", Patient Name: " << i->getPatientName() << ", Date: " << i->getDate()
+                 << ", Disease: " << i->getDisease() << endl;
         }
     }
 
@@ -164,8 +211,7 @@ void Patient::searchByRecordID() {
     }
 }
 
-
-void Patient::searchByDate() {
+void MedicalSystem::searchByDate() {
     system("cls");
     string searchDate;
     cout << "Enter date: ";
@@ -180,17 +226,18 @@ void Patient::searchByDate() {
                 cout << "----------------------" << endl;
                 found = true;
             }
-            cout << "Record ID: " << i->getRecordID() << ", Date: " << i->getDate() << ", Disease: " << i->getDisease() << endl;
+            cout << "Record ID: " << i->getRecordID() << ", Patient ID: " << i->getPatientID()
+                 << ", Patient Name: " << i->getPatientName() << ", Date: " << i->getDate()
+                 << ", Disease: " << i->getDisease() << endl;
         }
     }
 
     if (!found) {
         cout << "No records found for the given date." << endl;
     }
-
 }
 
-void Patient::searchByDisease() {
+void MedicalSystem::searchByDisease() {
     system("cls");
     string searchDisease;
     cout << "Enter disease: ";
@@ -200,13 +247,15 @@ void Patient::searchByDisease() {
     bool found = false;
 
     for (auto i = records.begin(); i != records.end(); ++i) {
-        if (i->getDate() == searchDisease) {
+        if (i->getDisease() == searchDisease) {
             if (!found) {
                 cout << "Records with disease " << searchDisease << ":" << endl;
                 cout << "----------------------" << endl;
                 found = true;
             }
-            cout << "Record ID: " << i->getRecordID() << ", Date: " << i->getDate() << ", Disease: " << i->getDisease() << endl;
+            cout << "Record ID: " << i->getRecordID() << ", Patient ID: " << i->getPatientID()
+                 << ", Patient Name: " << i->getPatientName() << ", Date: " << i->getDate()
+                 << ", Disease: " << i->getDisease() << endl;
         }
     }
 
@@ -215,45 +264,59 @@ void Patient::searchByDisease() {
     }
 }
 
-
 int main() {
-
-    Patient patient("health_records.txt");
+    MedicalSystem medicalSystem("health_records.txt");
 
     int choice;
     do {
         system("cls");
-        cout << "Patient Health Record Management System" << endl;
+        cout << "MedicalSystem Health Record Management System" << endl;
         cout << "1. Add a Record" << endl;
-        cout << "2. Search by Date" << endl;
-        cout << "3. Search by Disease" << endl;
-        cout << "4. Search by Record ID" << endl;
-        cout << "5. Remove a record" << endl;
-        cout << "6. Exit" << endl;
+        cout << "2. Search" << endl;
+        cout << "3. Remove a Record" << endl;
+        cout << "4. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
+
         switch (choice) {
             case 1:
-                patient.addRecord();
+                medicalSystem.addRecord();
                 cout << endl << "Press any key to continue." << endl;
                 break;
-            case 2:
-                patient.searchByDate();
-                cout << endl << "Press any key to continue." << endl;
+            case 2: {
+                system("cls");
+                int searchChoice;
+                cout << "Search Options:" << endl;
+                cout << "1. Search by Record ID" << endl;
+                cout << "2. Search by Patient ID" << endl;
+                cout << "3. Search by Date" << endl;
+                cout << "4. Search by Disease" << endl;
+                cout << "Enter your choice: ";
+                cin >> searchChoice;
+
+                switch (searchChoice) {
+                    case 1:
+                        medicalSystem.searchByRecordID();
+                        break;
+                    case 2:
+                        medicalSystem.searchByPatientID();
+                        break;
+                    case 3:
+                        medicalSystem.searchByDate();
+                        break;
+                    case 4:
+                        medicalSystem.searchByDisease();
+                        break;
+                    default:
+                        cout << "Invalid search option. Please try again.";
+                }
+                cin.get();
                 break;
+            }
             case 3:
-                patient.searchByDisease();
-                cout << endl << "Press any key to continue." << endl;
+                medicalSystem.removeRecordByID();
                 break;
             case 4:
-                patient.searchByRecordID();
-                cout << endl << "Press any key to continue." << endl;
-                break;
-            case 5:
-                patient.removeRecordByID();
-                cout << endl << "Press any key to continue." << endl;
-                break;
-            case 6:
                 system("cls");
                 cout << "Exiting the program..." << endl;
                 break;
@@ -261,8 +324,10 @@ int main() {
                 system("cls");
                 cout << "Invalid choice. Please try again." << endl;
         }
+        cout << endl << "Press any key to continue." << endl;
         cin.get(); // Wait for user input before continuing
-    } while (choice != 6);
+    } while (choice != 4);
 
     return 0;
 }
+
