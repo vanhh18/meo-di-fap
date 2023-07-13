@@ -1,0 +1,5 @@
+Patient ID: 100, Patient Name: Chau, Record ID: 1, Date: 10, Disease: None
+Patient ID: 101, Patient Name: Nam, Record ID: 2, Date: 11, Disease: Sleepy
+Patient ID: 102, Patient Name: SNam, Record ID: 3, Date: 10, Disease: Dizzy
+Patient ID: 104, Patient Name: VAnh, Record ID: 4, Date: 13, Disease: Lazy
+Patient ID: 105, Patient Name: Minh, Record ID: 5, Date: 12, Disease: Dumb
