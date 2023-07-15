@@ -90,8 +90,6 @@ void MedicalSystem::readFromFile() {
 
     string recordLine;
     while (getline(inputFile, recordLine)) {
-        // Parse the record line and extract patient ID, patient name, record ID, date, and disease
-        // Assuming the record line has the format: "Patient ID: <id>, Patient Name: <name>, Record ID: <id>, Date: <date>, Disease: <disease>"
         size_t patientIDPos = recordLine.find(": ");
         size_t patientNamePos = recordLine.find(", Patient Name: ");
         size_t recordIDPos = recordLine.find(", Record ID: ");
@@ -277,11 +275,10 @@ int main() {
         cout << "4. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
-
+        cin.ignore();
         switch (choice) {
             case 1:
                 medicalSystem.addRecord();
-                cout << endl << "Press any key to continue." << endl;
                 break;
             case 2: {
                 system("cls");
@@ -293,7 +290,6 @@ int main() {
                 cout << "4. Search by Disease" << endl;
                 cout << "Enter your choice: ";
                 cin >> searchChoice;
-
                 switch (searchChoice) {
                     case 1:
                         medicalSystem.searchByRecordID();
@@ -308,6 +304,7 @@ int main() {
                         medicalSystem.searchByDisease();
                         break;
                     default:
+                        system("cls");
                         cout << "Invalid search option. Please try again.";
                 }
                 cin.get();
@@ -322,9 +319,10 @@ int main() {
                 break;
             default:
                 system("cls");
-                cout << "Invalid choice. Please try again." << endl;
+                cout << "Invalid choice. Please try again." ;
         }
-        cout << endl << "Press any key to continue." << endl;
+        cout << endl << "----------------------" << endl;
+        cout << "Press any key to continue." << endl;
         cin.get(); // Wait for user input before continuing
     } while (choice != 4);
 
