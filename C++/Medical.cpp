@@ -25,20 +25,40 @@ public:
         return patientID;
     }
 
+    void setPatientID(const string& newPatientID) {
+        patientID = newPatientID;
+    }
+
     string getPatientName() const {
         return patientName;
+    }
+
+    void setPatientName(const string& newPatientName) {
+        patientName = newPatientName;
     }
 
     string getRecordID() const {
         return recordID;
     }
 
+    void setRecordID(const string& newRecordID) {
+        recordID = newRecordID;
+    }
+
     string getDate() const {
         return date;
     }
 
+    void setDate(const string& newDate) {
+        date = newDate;
+    }
+
     string getDisease() const {
         return disease;
+    }
+
+    void setDisease(const string& newDisease) {
+        disease = newDisease;
     }
 };
 
@@ -48,6 +68,13 @@ private:
     string fileName;
 public:
     MedicalSystem(const string& filename);
+    void welcomeScreen();
+    void title();
+    void mainMenu();
+    void loginScreen();
+    void listRecords();
+    void editRecord();
+    void searchRecord();
     void addRecord();
     void searchByPatientID();
     void searchByDate();
@@ -60,6 +87,101 @@ public:
 
 MedicalSystem::MedicalSystem(const string& filename) : fileName(filename) {
     readFromFile();
+}
+
+void MedicalSystem::welcomeScreen() {
+    cout << "\n\n\n\n\n\n\n";
+    cout << "\t\t\t\t#########################################\n";
+    cout << "\t\t\t\t#\t\t WELCOME TO\t\t#\n";
+    cout << "\t\t\t\t#          HOSPITAL RECORD SYSTEM       #\n";
+    cout << "\t\t\t\t#########################################\n";
+    cout << "\n\n\n\n\n Press any key to continue......\n";
+    cin.get();
+    system("cls");
+}
+
+void MedicalSystem::title() {
+    cout << "\n\n\t\t\t--------------------------------------------------\n";
+    cout << "\t\t\t\t       HOSPITAL RECORD\n";
+    cout << "\t\t\t--------------------------------------------------\n";
+}
+
+void MedicalSystem::mainMenu() {
+    int choice;
+    do {
+        system("cls");
+        title();
+        cout << "\n\n\n\n\n";
+        cout << "\t\t\t\t1. Add Patient Record\n";
+        cout << "\t\t\t\t2. List Patient Records\n";
+        cout << "\t\t\t\t3. Search Patient Record\n";
+        cout << "\t\t\t\t4. Edit Patient Record\n";
+        cout << "\t\t\t\t5. Delete Patient Record\n";
+        cout << "\t\t\t\t6. Exit\n";
+        cout << "\n\n\n \n\t\t\t\tChoose from 1 to 6: ";
+        cin >> choice;
+        cin.ignore();
+        switch (choice) {
+            case 1:
+                addRecord();
+                break;
+            case 2:
+                listRecords();
+                break;
+            case 3:
+                searchRecord();
+                break;
+            case 4:
+                editRecord();
+                break;
+            case 5:
+                removeRecordByID();
+                break;
+            case 6:
+                system("cls");
+                exit(0);
+            default:
+                system("cls");
+                cout << "\t\t\tInvalid entry. Please enter the right option :)\n";
+        }
+        cout << endl << "----------------------" << endl;
+        cout << "Press any key to continue." << endl;
+        cin.get();
+        mainMenu();
+    } while (choice != 6);
+}
+
+void MedicalSystem::loginScreen() {
+    int attempts = 0;
+    string username, password;
+    const string originalUsername = "admin";
+    const string originalPassword = "12345";
+
+    do {
+        cout << "\n\n\n\n\t\t\t\tEnter your Username and Password :)\n";
+        cout << "\n\n\n\t\t\t\t\tUSERNAME: ";
+        cin >> username;
+
+        cout << "\n\n\t\t\t\t\tPASSWORD: ";
+        cin >> password;
+
+        if (username == originalUsername && password == originalPassword) {
+            cout << "\n\n\n\t\t\t\t\t...Login Successful...\n";
+            cin.get();
+            mainMenu();
+            break;
+        } else {
+            cout << "\n\t\t\tPassword is incorrect. Try Again :)\n";
+            attempts++;
+            cin.get();
+        }
+    } while (attempts <= 2);
+
+    if (attempts > 2) {
+        cout << "You have crossed the limit. You cannot login. :(\n";
+        cin.get();
+        exit(0);
+    }
 }
 
 void MedicalSystem::saveToFile() {
@@ -79,7 +201,6 @@ void MedicalSystem::saveToFile() {
     outputFile.close();
     cout << "Data saved to file!" << endl;
 }
-
 
 void MedicalSystem::readFromFile() {
     ifstream inputFile(fileName);
@@ -110,6 +231,66 @@ void MedicalSystem::readFromFile() {
     }
 
     inputFile.close();
+}
+
+void MedicalSystem::listRecords() {
+    system("cls");
+    title();
+    cout << "Patient Records:" << endl;
+    cout << "----------------------" << endl;
+    if (records.empty()) {
+        cout << "No records found." << endl;
+    } else {
+        for (const auto& record : records) {
+            cout << "Record ID: " << record.getRecordID() << ", Patient ID: " << record.getPatientID()
+                << ", Patient Name: " << record.getPatientName() << ", Date: " << record.getDate()
+                << ", Disease: " << record.getDisease() << endl;
+        }
+    }
+}
+
+void MedicalSystem::editRecord() {
+    system("cls");
+    string searchRecordID;
+    cout << "Enter record ID to edit: ";
+    cin.ignore();
+    getline(cin, searchRecordID);
+    bool found = false;
+
+    for (auto& record : records) {
+        if (record.getRecordID() == searchRecordID) {
+            found = true;
+
+            cout << "Editing Record ID: " << record.getRecordID() << endl;
+            cout << "Enter new patient ID: ";
+            string newPatientID;
+            getline(cin, newPatientID);
+            record.setPatientID(newPatientID);
+
+            cout << "Enter new patient name: ";
+            string newPatientName;
+            getline(cin, newPatientName);
+            record.setPatientName(newPatientName);
+
+            cout << "Enter new date: ";
+            string newDate;
+            getline(cin, newDate);
+            record.setDate(newDate);
+
+            cout << "Enter new disease: ";
+            string newDisease;
+            getline(cin, newDisease);
+            record.setDisease(newDisease);
+
+            cout << "Record updated successfully!" << endl;
+            saveToFile(); // Update the file after editing the record
+            break;
+        }
+    }
+
+    if (!found) {
+        cout << "No records found for the given record ID." << endl;
+    }
 }
 
 void MedicalSystem::addRecord() {
@@ -274,70 +455,51 @@ void MedicalSystem::searchByDisease() {
     }
 }
 
+void MedicalSystem::searchRecord() {
+    system("cls");
+    int choice;
+    title();
+    cout << "\n\n\n\n\n";
+    cout << "\t\t\t\t1. Search by Record ID\n";
+    cout << "\t\t\t\t2. Search by Patient ID\n";
+    cout << "\t\t\t\t3. Search by Date\n";
+    cout << "\t\t\t\t4. Search by Disease\n";
+    cout << "\t\t\t\t5. Back to Main Menu\n";
+    cout << "\n\n\n \n\t\t\t\tChoose from 1 to 5: ";
+    cin >> choice;
+
+    switch (choice) {
+        case 1:
+            searchByRecordID();
+            break;
+        case 2:
+            searchByPatientID();
+            break;
+        case 3:
+            searchByDate();
+            break;
+        case 4:
+            searchByDisease();
+            break;
+        case 5:
+            mainMenu();
+            break;
+        default:
+            cout << "\t\t\tInvalid entry. Please enter the right option :)\n";
+            cin.ignore();
+            cin.get();
+            searchRecord();
+    }
+}
+
+
 int main() {
     MedicalSystem medicalSystem("health_records.txt");
 
-    int choice;
-    do {
-        system("cls");
-        cout << "MedicalSystem Health Record Management System" << endl;
-        cout << "1. Add a Record" << endl;
-        cout << "2. Search" << endl;
-        cout << "3. Remove a Record" << endl;
-        cout << "4. Exit" << endl;
-        cout << "Enter your choice: ";
-        cin >> choice;
-        cin.ignore();
-        switch (choice) {
-            case 1:
-                medicalSystem.addRecord();
-                break;
-            case 2: {
-                system("cls");
-                int searchChoice;
-                cout << "Search Options:" << endl;
-                cout << "1. Search by Record ID" << endl;
-                cout << "2. Search by Patient ID" << endl;
-                cout << "3. Search by Date" << endl;
-                cout << "4. Search by Disease" << endl;
-                cout << "Enter your choice: ";
-                cin >> searchChoice;
-                switch (searchChoice) {
-                    case 1:
-                        medicalSystem.searchByRecordID();
-                        break;
-                    case 2:
-                        medicalSystem.searchByPatientID();
-                        break;
-                    case 3:
-                        medicalSystem.searchByDate();
-                        break;
-                    case 4:
-                        medicalSystem.searchByDisease();
-                        break;
-                    default:
-                        system("cls");
-                        cout << "Invalid search option. Please try again.";
-                }
-                cin.get();
-                break;
-            }
-            case 3:
-                medicalSystem.removeRecordByID();
-                break;
-            case 4:
-                system("cls");
-                cout << "Exiting the program..." << endl;
-                break;
-            default:
-                system("cls");
-                cout << "Invalid choice. Please try again." ;
-        }
-        cout << endl << "----------------------" << endl;
-        cout << "Press any key to continue." << endl;
-        cin.get(); // Wait for user input before continuing
-    } while (choice != 4);
-
+    medicalSystem.welcomeScreen();
+    medicalSystem.title();
+    medicalSystem.loginScreen();
     return 0;
 }
+
 
