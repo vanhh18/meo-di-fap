@@ -5,3 +5,4 @@ Patient ID: 104, Patient Name: VAnh, Record ID: 4, Date: 13, Disease: Lazy
 Patient ID: 105, Patient Name: Minh, Record ID: 5, Date: 12, Disease: Dumb
 Patient ID: 100, Patient Name: Chau, Record ID: 6, Date: 15, Disease: Tired
 Patient ID: 7, Patient Name: Kien, Record ID: 7, Date: 14, Disease: Bored
+Patient ID: 100, Patient Name: Chau, Record ID: 8, Date: 15, Disease: Exhausted

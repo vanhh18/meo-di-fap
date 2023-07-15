@@ -120,8 +120,20 @@ void MedicalSystem::addRecord() {
     cout << "Enter patient name: ";
     cin.ignore();
     getline(cin, patientName);
-    cout << "Enter record ID: ";
-    getline(cin, recordID);
+    bool isDuplicate;
+    do {
+        isDuplicate = false;
+        cout << "Enter record ID: ";
+        getline(cin, recordID);
+
+        for (const auto& record : records) {
+            if (record.getRecordID() == recordID) {
+                isDuplicate = true;
+                cout << "Record ID is already taken. Please enter a different one." << endl;
+                break;
+            }
+        }
+    } while (isDuplicate);
     cout << "Enter date: ";
     getline(cin, date);
     cout << "Enter disease: ";
