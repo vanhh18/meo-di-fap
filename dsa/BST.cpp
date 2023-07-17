@@ -4,7 +4,7 @@
 #include <vector>
 #include <bitset>
 #include <algorithm>
-#include "opencv2/opencv.hpp"
+#include <opencv2/opencv.hpp>
 
 using namespace std;
 using namespace cv;
@@ -23,7 +23,6 @@ struct node
         delete right;
     }
 };
-
 
 //Function to convert the image to binary string.
 string convertImageToBinary(const Mat& image)
@@ -444,30 +443,44 @@ string dnaToBinary(const vector<string>& dnaString)
     return binaryString;
 }
 
+string readBinaryStringFromFile(const string& filePath)
+{
+    string binaryString;
+
+    ifstream inputFile(filePath);
+    if (inputFile.is_open())
+    {
+        getline(inputFile, binaryString);
+        inputFile.close();
+        cout << "Binary string read from file: " << filePath << endl;
+    }
+    else
+    {
+        cerr << "Failed to open the input file: " << filePath << endl;
+    }
+    return binaryString;
+}
+
 
 int main()
-{
-    Mat image = imread("C:\\Users\\Lenovo\\Downloads\\358480551_523648293221376_324013621217729691_n.jpg", IMREAD_GRAYSCALE);
+{   
+    
+    // Mat image = imread("C:\\Users\\Lenovo\\Downloads\\358480551_523648293221376_324013621217729691_n.jpg", IMREAD_GRAYSCALE);
 
-    if (image.empty())
-    {
-        cerr << "Unable to read the image." << endl;
-        return 1;
-    }
+    // if (image.empty())
+    // {
+    //     cerr << "Unable to read the image." << endl;
+    //     return 1;
+    // }
 
-    string binaryString = convertImageToBinary(image);
-    saveBinaryToTextFile(binaryString, "binary.txt");
+    // string binaryString = convertImageToBinary(image);
+    // // saveBinaryToTextFile(binaryString, "binary.txt");
 
-    // Determine the dimensions of the original image
-    int imageWidth = image.cols; // 125
-    int imageHeight = image.rows; // 113
+    // // Determine the dimensions of the original image
+    // int imageWidth = image.cols; // 125
+    // int imageHeight = image.rows; // 113
 
-    // Convert binary text back to image
-    Mat restoredImage = convertTextToImage("binary2.txt", imageWidth, imageHeight);
-
-    // Display the restored image
-    imshow("Restored Image", restoredImage);
-    waitKey(0);
+    string binaryString = readBinaryStringFromFile("binary2.txt");
 
     vector<string> dnaString = convertToDNA(binaryString);
 
@@ -477,11 +490,9 @@ int main()
 
     xorResults = xorDNASequences(xorResults, "TTTT");
 
-    // for (const string& result : xorResults)
-    // {
-    //     cout << result << " ";
-    // }
+    // xorResults = xorDNASequences(xorResults, "ATGC");
 
+    // xorResults = xorDNASequences(xorResults, "TTTT");
 
     node* root = NULL;
     for (const string& result : xorResults)
@@ -489,57 +500,18 @@ int main()
         Insert(root, result);
     }
 
-    string binaryString2 = dnaToBinary(dnaString);
+    string binaryString2 = dnaToBinary(xorResults);
+    
     saveBinaryToTextFile(binaryString2, "binary2.txt");
 
-    // cout << "Inorder traversal of the BST: ";
-    // traversal_inorder(root);
-    // cout << endl;
+    // Convert binary text back to image
+    Mat restoredImage = convertTextToImage("binary2.txt", 125, 113);
 
-    // cout << "Preorder traversal of the BST: ";
-    // traversal_preorder(root);
-    // cout << endl;
-
-    // cout << "Postorder traversal of the BST: ";
-    // traversal_postorder(root);
-    // cout << endl;
-
-    // cout << "Height of the BST: " << FindHeight(root) << endl;
-
-    // node* minNode = FindMin(root);
-    // if (minNode != NULL)
-    // {
-    //     cout << "Minimum value in the BST: " << minNode->data << endl;
-    // }
-
-    // node* maxNode = FindMax(root);
-    // if (maxNode != NULL)
-    // {
-    //     cout << "Maximum value in the BST: " << maxNode->data << endl;
-    // }
-
-    // string valueToSearch = "ATGC";
-    // bool found = Search(root, valueToSearch);
-    // if (found)
-    // {
-    //     cout << valueToSearch << " found in the BST." << endl;
-    // }
-    // else
-    // {
-    //     cout << valueToSearch << " not found in the BST." << endl;
-    // }
-
-    // string valueToDelete = "ATTT";
-    // root = Delete(root, valueToDelete);
-    // cout << "Inorder traversal after deleting " << valueToDelete << ": ";
-    // traversal_inorder(root);
-    // cout << endl;
+    // Display the restored image
+    imshow("Restored Image", restoredImage);
+    waitKey(0);
 
     node* balancedTree = BalanceTree(root);
-    // cout << "Height of the BST after balanced: " << FindHeight(balancedTree) << endl;
-    // cout << "Inorder traversal of the balanced BST: \n";
-    // traversal_inorder(balancedTree);
-    // cout << endl;
     
     delete balancedTree;
 
