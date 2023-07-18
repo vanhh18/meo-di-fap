@@ -21,45 +21,25 @@ public:
         this->disease = disease;
     }
 
-    string getPatientID() const {
-        return patientID;
-    }
+    string getPatientID() const { return patientID;}
 
-    void setPatientID(const string& newPatientID) {
-        patientID = newPatientID;
-    }
+    void setPatientID(const string& newPatientID) { patientID = newPatientID;}
 
-    string getPatientName() const {
-        return patientName;
-    }
+    string getPatientName() const { return patientName;}
 
-    void setPatientName(const string& newPatientName) {
-        patientName = newPatientName;
-    }
+    void setPatientName(const string& newPatientName) { patientName = newPatientName;}
 
-    string getRecordID() const {
-        return recordID;
-    }
+    string getRecordID() const { return recordID;}
 
-    void setRecordID(const string& newRecordID) {
-        recordID = newRecordID;
-    }
+    void setRecordID(const string& newRecordID) { recordID = newRecordID;}
 
-    string getDate() const {
-        return date;
-    }
+    string getDate() const { return date;}
 
-    void setDate(const string& newDate) {
-        date = newDate;
-    }
+    void setDate(const string& newDate) { date = newDate;}
 
-    string getDisease() const {
-        return disease;
-    }
+    string getDisease() const { return disease;}
 
-    void setDisease(const string& newDisease) {
-        disease = newDisease;
-    }
+    void setDisease(const string& newDisease) { disease = newDisease;}
 };
 
 class MedicalSystem {
