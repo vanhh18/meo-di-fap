@@ -100,7 +100,6 @@ void MedicalSystem::mainMenu() {
         cout << "\t\t\t\t6. Exit\n";
         cout << "\n\n\n \n\t\t\t\tChoose from 1 to 6: ";
         cin >> choice;
-        cin.ignore();
         switch (choice) {
             case 1:
                 addRecord();
@@ -215,6 +214,7 @@ void MedicalSystem::readFromFile() {
 void MedicalSystem::listRecords() {
     system("cls");
     title();
+    cin.ignore();
     cout << "Patient Records:" << endl;
     cout << "----------------------" << endl;
     if (records.empty()) {
@@ -234,6 +234,7 @@ void MedicalSystem::editRecord() {
     cout << "Enter record ID to edit: ";
     cin.ignore();
     getline(cin, searchRecordID);
+
     bool found = false;
 
     for (auto& record : records) {
@@ -271,6 +272,7 @@ void MedicalSystem::editRecord() {
         cout << "No records found for the given record ID." << endl;
     }
 }
+
 
 void MedicalSystem::addRecord() {
     system("cls");
@@ -459,7 +461,6 @@ void MedicalSystem::searchRecord() {
             searchRecord();
     }
 }
-
 
 int main() {
     MedicalSystem medicalSystem("health_records.txt");
