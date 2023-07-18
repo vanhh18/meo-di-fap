@@ -6,8 +6,8 @@ class Salsa20:
             x = x & int
             x = x >> (31 - i)
             string += str(x)
-
         return string
+    
     def put4bytes(self, lis): # Bien doi list chua 4 gia tri 1 byte thanh int 32 bit
         ret = 0
         for i in range(4):
@@ -21,22 +21,23 @@ class Salsa20:
             a = 0xffffffff << (7 - i)*32
             a &= input
             a = a >> (7 - i)*32
-
             ret.append(a)
         return ret
+    
     def int8to4(self, input): # Bien doi gia tri int 8 byte thanh list cac gia tri 4 byte
         ret = []
         for i in range(2):
             a = 0xffffffff << (1 - i)*32
             a &= input
             a = a >> (1 - i)*32
-
             ret.append(a)
         return ret
+    
     def __init__(self, key, nonce):
         self.key = key
         self.nonce = nonce
         self.position = 0
+
     def createMatrix(self):
         # Prepare
         state = []
@@ -76,6 +77,7 @@ class Salsa20:
         d ^= self.rotate(c + b, 13)
         a ^= self.rotate(d + c, 18)
         return a, b, c, d
+    
     def execute(self, lis):
         for i in range(20):
             if ((i+1)%2 == 1):
