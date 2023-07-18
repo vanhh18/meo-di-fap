@@ -1,8 +1,11 @@
-Patient ID: 100, Patient Name: Chau, Record ID: 1, Date: 10, Disease: None
-Patient ID: 101, Patient Name: Nam, Record ID: 2, Date: 11, Disease: Sleepy
-Patient ID: 102, Patient Name: SNam, Record ID: 3, Date: 10, Disease: Dizzy
-Patient ID: 104, Patient Name: VAnh, Record ID: 4, Date: 13, Disease: Lazy
-Patient ID: 105, Patient Name: Minh, Record ID: 5, Date: 12, Disease: Dumb
-Patient ID: 100, Patient Name: Chau, Record ID: 6, Date: 15, Disease: Tired
-Patient ID: 103, Patient Name: Kien, Record ID: 7, Date: 14, Disease: Bored
-Patient ID: 100, Patient Name: Chau, Record ID: 8, Date: 15, Disease: Exhausted
+Patient ID          Patient Name                  Record ID      Date           Disease             
+====================================================================================================
+100                 Chau                          1              10             None                
+101                 Nam                           2              11             Sleepy              
+102                 SNam                          3              10             Dizzy               
+104                 VAnh                          4              13             Lazy                
+105                 Minh                          5              12             Dumb                
+100                 Chau                          6              15             Tired               
+103                 Kien                          7              14             Bored               
+100                 Chau                          8              16             Exhausted           
+106                 Quang                         9              17             Bi-a                

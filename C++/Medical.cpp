@@ -176,11 +176,9 @@ void MedicalSystem::saveToFile() {
     outputFile << setfill('=') << setw(100) << "" << setfill(' ') << endl;
 
     for (const auto& record : records) {
-        outputFile << "Patient ID: " << record.getPatientID() << ", Patient Name: " << record.getPatientName()
-                   << ", Record ID: " << record.getRecordID() << ", Date: " << record.getDate()
-                   << ", Disease: " << record.getDisease() << endl;
+        outputFile << left << setw(20) << record.getPatientID() << setw(30) << record.getPatientName() << setw(15)
+                 << record.getRecordID() << setw(15) << record.getDate() << setw(20) << record.getDisease() << endl;
     }
-
     outputFile.close();
 }
 
@@ -191,25 +189,15 @@ void MedicalSystem::readFromFile() {
         return;
     }
 
-    string recordLine;
-    while (getline(inputFile, recordLine)) {
-        size_t patientIDPos = recordLine.find(": ");
-        size_t patientNamePos = recordLine.find(", Patient Name: ");
-        size_t recordIDPos = recordLine.find(", Record ID: ");
-        size_t datePos = recordLine.find(", Date: ");
-        size_t diseasePos = recordLine.find(", Disease: ");
+    string headerLine;
+    string separatorLine;
+    getline(inputFile, headerLine);
+    getline(inputFile, separatorLine);
 
-        if (patientIDPos != string::npos && patientNamePos != string::npos && recordIDPos != string::npos &&
-            datePos != string::npos && diseasePos != string::npos) {
-            string patientID = recordLine.substr(patientIDPos + 2, patientNamePos - patientIDPos - 2);
-            string patientName = recordLine.substr(patientNamePos + 16, recordIDPos - patientNamePos - 16);
-            string recordID = recordLine.substr(recordIDPos + 13, datePos - recordIDPos - 13);
-            string date = recordLine.substr(datePos + 8, diseasePos - datePos - 8);
-            string disease = recordLine.substr(diseasePos + 11);
-
-            HealthRecord newRecord(patientID, patientName, recordID, date, disease);
-            records.push_back(newRecord);
-        }
+    string patientID, patientName, recordID, date, disease;
+    while (inputFile >> patientID >> patientName >> recordID >> date >> disease) {
+        HealthRecord newRecord(patientID, patientName, recordID, date, disease);
+        records.push_back(newRecord);
     }
 
     inputFile.close();
