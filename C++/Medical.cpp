@@ -124,8 +124,8 @@ void MedicalSystem::mainMenu() {
                 system("cls");
                 cout << "\t\t\tInvalid entry. Please enter the right option :)\n";
         }
-        cout << endl << "----------------------" << endl;
-        cout << "Press any key to continue." << endl;
+        cout << endl << "\t\t\t-------------------------" << endl;
+        cout << "\t\t\tPress any key to continue." << endl;
         cin.get();
         mainMenu();
     } while (choice != 6);
@@ -179,7 +179,6 @@ void MedicalSystem::saveToFile() {
     }
 
     outputFile.close();
-    cout << "Data saved to file!" << endl;
 }
 
 void MedicalSystem::readFromFile() {
@@ -282,19 +281,9 @@ void MedicalSystem::addRecord() {
     cin.ignore();
     getline(cin, patientName);
     bool isDuplicate;
-    do {
-        isDuplicate = false;
-        cout << "Enter record ID: ";
-        getline(cin, recordID);
-
-        for (const auto& record : records) {
-            if (record.getRecordID() == recordID) {
-                isDuplicate = true;
-                cout << "Record ID is already taken. Please enter a different one." << endl;
-                break;
-            }
-        }
-    } while (isDuplicate);
+    // Generate the record ID
+    int nextRecordID = records.empty() ? 1 : stoi(records.back().getRecordID()) + 1;
+    recordID = to_string(nextRecordID);
     cout << "Enter date: ";
     getline(cin, date);
     cout << "Enter disease: ";
@@ -364,16 +353,15 @@ void MedicalSystem::searchByRecordID() {
     getline(cin, searchRecordID);
     bool found = false;
 
-    for (auto i = records.begin(); i != records.end(); ++i) {
-        if (i->getRecordID() == searchRecordID) {
-            if (!found) {
-                cout << "Records with record ID " << searchRecordID << ":" << endl;
-                cout << "----------------------" << endl;
-                found = true;
-            }
-            cout << "Record ID: " << i->getRecordID() << ", Patient ID: " << i->getPatientID()
-                 << ", Patient Name: " << i->getPatientName() << ", Date: " << i->getDate()
-                 << ", Disease: " << i->getDisease() << endl;
+    for (auto& record : records) {
+        if (record.getRecordID() == searchRecordID) {
+            found = true;
+
+            cout << "Records with record ID " << searchRecordID << ":" << endl;
+            cout << "----------------------" << endl;
+            cout << "Record ID: " << record.getRecordID() << ", Patient ID: " << record.getPatientID()
+                 << ", Patient Name: " << record.getPatientName() << ", Date: " << record.getDate()
+                 << ", Disease: " << record.getDisease() << endl;
         }
     }
 
@@ -390,16 +378,16 @@ void MedicalSystem::searchByDate() {
     getline(cin, searchDate);
     bool found = false;
 
-    for (auto i = records.begin(); i != records.end(); ++i) {
-        if (i->getDate() == searchDate) {
+    for (auto& record : records) {
+        if (record.getDate() == searchDate) {
             if (!found) {
                 cout << "Records with date " << searchDate << ":" << endl;
                 cout << "----------------------" << endl;
                 found = true;
             }
-            cout << "Record ID: " << i->getRecordID() << ", Patient ID: " << i->getPatientID()
-                 << ", Patient Name: " << i->getPatientName() << ", Date: " << i->getDate()
-                 << ", Disease: " << i->getDisease() << endl;
+            cout << "Record ID: " << record.getRecordID() << ", Patient ID: " << record.getPatientID()
+                 << ", Patient Name: " << record.getPatientName() << ", Date: " << record.getDate()
+                 << ", Disease: " << record.getDisease() << endl;
         }
     }
 
@@ -417,16 +405,16 @@ void MedicalSystem::searchByDisease() {
 
     bool found = false;
 
-    for (auto i = records.begin(); i != records.end(); ++i) {
-        if (i->getDisease() == searchDisease) {
+    for (auto& record : records) {
+        if (record.getDisease() == searchDisease) {
             if (!found) {
                 cout << "Records with disease " << searchDisease << ":" << endl;
                 cout << "----------------------" << endl;
                 found = true;
             }
-            cout << "Record ID: " << i->getRecordID() << ", Patient ID: " << i->getPatientID()
-                 << ", Patient Name: " << i->getPatientName() << ", Date: " << i->getDate()
-                 << ", Disease: " << i->getDisease() << endl;
+            cout << "Record ID: " << record.getRecordID() << ", Patient ID: " << record.getPatientID()
+                 << ", Patient Name: " << record.getPatientName() << ", Date: " << record.getDate()
+                 << ", Disease: " << record.getDisease() << endl;
         }
     }
 
@@ -481,5 +469,3 @@ int main() {
     medicalSystem.loginScreen();
     return 0;
 }
-
-
