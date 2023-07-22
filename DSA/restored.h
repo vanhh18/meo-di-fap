@@ -10,7 +10,7 @@ Mat restored(const Mat& image)
 	int imageWidth = image.cols; // 125
 	int imageHeight = image.rows; // 113
 
-	saveBinaryToTextFile(binaryString2, "binary2.txt");
+	saveBinaryToTextFile(binaryString2, "binary3.txt");
 
 	vector<string> dnaString2 = convertToDNA(binaryString2);
 
@@ -24,19 +24,20 @@ Mat restored(const Mat& image)
 
 	// xorResults = xorDNASequences(xorResults, "TTTT");
 
-	string binaryString3 = dnaToBinary(xorResults2);
-
 	node* root = NULL;
 	for (const string& result : xorResults2)
 	{
 		Insert(root, result);
 	}
 
-	saveBinaryToTextFile(binaryString3, "binary3.txt");
+	string binaryString3 = dnaToBinary(xorResults2);
 
-	Mat restoredImage = convertTextToImage("binary3.txt", imageWidth, imageHeight);
+	saveBinaryToTextFile(binaryString3, "binary4.txt");
 
-	// Display the encrypted image
+	// restored image
+	Mat restoredImage = convertTextToImage("binary4.txt", imageWidth, imageHeight);
+
+	// Display the restored image
 	imshow("restored Image", restoredImage);
 	waitKey(0);
 

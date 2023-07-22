@@ -6,14 +6,14 @@
 int main()
 {
 
-    Mat image = imread("C:\\Users\\DGC\\Desktop\\startOpencv1\\anh2.jpg", IMREAD_GRAYSCALE);
+    Mat image = imread("C:\\Users\\DGC\\Desktop\\startOpencv1\\cho.jpg", IMREAD_GRAYSCALE);
 
     if (image.empty())
     {
         cerr << "Unable to read the image." << endl;
         return 1;
     }
-
+    
    Mat maHoa = encrypted(image);
 
    Mat giaiMa =  restored(maHoa);
