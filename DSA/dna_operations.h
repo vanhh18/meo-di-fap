@@ -1,4 +1,4 @@
-#pragma once    
+#pragma once
 #include "header.h"
 
 string binaryToATGC(const string& binaryString)
@@ -6,9 +6,9 @@ string binaryToATGC(const string& binaryString)
     string atgcString;
     size_t length = binaryString.length();
 
-    if (length % 8 != 0)
+    if (length % 2 != 0)
     {
-        cerr << "Invalid binary string length. Length must be a multiple of 8." << endl;
+        cerr << "Invalid binary string length. Length must be a multiple of 2." << endl;
         return atgcString;
     }
 
@@ -53,7 +53,6 @@ string binaryToATGC(const string& binaryString)
     return atgcString;
 }
 
-//Function to convert binary to DNA then store in a vector.
 vector<string> convertToDNA(const string& binaryStrings)
 {
     vector<string> dnaString;
@@ -63,79 +62,81 @@ vector<string> convertToDNA(const string& binaryStrings)
 
     for (size_t i = 0; i < numPixels; ++i)
     {
-        //Take a string of 8 characters each time.
+        // Take a string of 8 characters each time.
         string binaryStr = binaryStrings.substr(i * 8, 8);
-        //Then convert to DNA.
+        // Then convert to DNA.
         string atgcString = binaryToATGC(binaryStr);
-        //Store in a vector
+        // Store in a vector
         dnaString.push_back(atgcString);
     }
     return dnaString;
 }
 
-//Function to XOR 2 character of DNA.
-string xorNucleotides(char nucleotide1, char nucleotide2)
+char xorNucleotides(char nucleotide1, char nucleotide2)
 {
     if (nucleotide1 == 'A')
     {
         if (nucleotide2 == 'A')
-            return "A";
+            return 'A';
         else if (nucleotide2 == 'T')
-            return "T";
+            return 'T';
         else if (nucleotide2 == 'C')
-            return "C";
+            return 'C';
         else if (nucleotide2 == 'G')
-            return "G";
+            return 'G';
     }
     else if (nucleotide1 == 'T')
     {
         if (nucleotide2 == 'A')
-            return "T";
+            return 'T';
         else if (nucleotide2 == 'T')
-            return "A";
+            return 'A';
         else if (nucleotide2 == 'C')
-            return "G";
+            return 'G';
         else if (nucleotide2 == 'G')
-            return "C";
+            return 'C';
     }
     else if (nucleotide1 == 'C')
     {
         if (nucleotide2 == 'A')
-            return "C";
+            return 'C';
         else if (nucleotide2 == 'T')
-            return "G";
+            return 'G';
         else if (nucleotide2 == 'C')
-            return "A";
+            return 'A';
         else if (nucleotide2 == 'G')
-            return "T";
+            return 'T';
     }
     else if (nucleotide1 == 'G')
     {
         if (nucleotide2 == 'A')
-            return "G";
+            return 'G';
         else if (nucleotide2 == 'T')
-            return "C";
+            return 'C';
         else if (nucleotide2 == 'C')
-            return "T";
+            return 'T';
         else if (nucleotide2 == 'G')
-            return "A";
+            return 'A';
     }
+
+    // Return a default value in case of an invalid nucleotide.
+    cerr << "Invalid nucleotide: " << nucleotide1 << " or " << nucleotide2 << endl;
+    return 'N';
 }
 
-//Function to XOR all the DNA in vector with a DNA sequence.
 vector<string> xorDNASequences(const vector<string>& dnaString, const string& dnaSeq2)
 {
     size_t numSequences = dnaString.size();
     size_t seqLength = dnaString[0].length();
 
-    //Check length for XOR operation.
+    // Check length for XOR operation.
     if (seqLength != dnaSeq2.length())
     {
         cerr << "Error: DNA sequences must have the same length for XOR operation." << endl;
         return {};
     }
 
-    //Initialize an empty vector with size of original DNA vector.
+    // Initialize an empty vector with the size of the original DNA vector.
     vector<string> xorResults(numSequences);
 
     for (size_t i = 0; i < numSequences; ++i)
@@ -148,7 +149,7 @@ vector<string> xorDNASequences(const vector<string>& dnaString, const string& dn
             char nucleotide1 = sequence[j];
             char nucleotide2 = dnaSeq2[j];
 
-            string xorNucleotide = xorNucleotides(nucleotide1, nucleotide2);
+            char xorNucleotide = xorNucleotides(nucleotide1, nucleotide2);
 
             xorResult += xorNucleotide;
         }
@@ -159,7 +160,6 @@ vector<string> xorDNASequences(const vector<string>& dnaString, const string& dn
     return xorResults;
 }
 
-//Convert DNA vector to binary string.
 string dnaToBinary(const vector<string>& dnaString)
 {
     string linkedDNA;
