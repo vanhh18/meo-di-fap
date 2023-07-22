@@ -47,6 +47,8 @@ Mat encrypted(const Mat& image)
     imshow("Encrypted Image", encryptedImage);
     waitKey(0);
 
+    imwrite("encrypted.png", encryptedImage);
+
     node* balancedTree = BalanceTree(root);
 
     delete balancedTree;

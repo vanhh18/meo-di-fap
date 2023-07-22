@@ -6,7 +6,7 @@
 int main()
 {
 
-    Mat image = imread("C:\\Users\\DGC\\Desktop\\startOpencv1\\cho.jpg", IMREAD_GRAYSCALE);
+    Mat image = imread("C:\\Users\\DGC\\Desktop\\startOpencv1\\startOpencv1\\encrypted.png", IMREAD_GRAYSCALE);
 
     if (image.empty())
     {
@@ -14,9 +14,9 @@ int main()
         return 1;
     }
     
-   Mat maHoa = encrypted(image);
+   //Mat maHoa = encrypted(image);
 
-   Mat giaiMa =  restored(maHoa);
+   Mat giaiMa =  restored(image);
 
     return 0;
 }
