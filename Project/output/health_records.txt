@@ -1,7 +1,6 @@
 Patient ID          Patient Name                  Record ID      Date           Disease             
 ====================================================================================================
-102                 Song                          1              10             Sneeze              
-100                 Chau                          2              2              obese               
+6                   3                             2              23             123                 
 103                 Hnam                          3              5              sleepy              
 Minh                Minh                          4              1              2                   
 104                 VA                            5              2              fat                 
