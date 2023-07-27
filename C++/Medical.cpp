@@ -122,6 +122,7 @@ void MedicalSystem::mainMenu() {
             default:
                 system("cls");
                 cout << "\t\t\tInvalid entry. Please enter the right option :)\n";
+                cin.ignore();
         }
         cout << endl << "\t\t\t-------------------------" << endl;
         cout << "\t\t\tPress any key to continue." << endl;
@@ -456,7 +457,7 @@ void MedicalSystem::searchRecord() {
 
 int main() {
     MedicalSystem medicalSystem("health_records.txt");
-
+    system("cls");
     medicalSystem.welcomeScreen();
     medicalSystem.title();
     medicalSystem.loginScreen();
