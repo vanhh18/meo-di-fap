@@ -1,5 +1,5 @@
 #pragma once
-#include "medicalSystem.h"
+#include "header.h"
 
 void MedicalSystem::title() {
     cout << "\n\n\t\t\t--------------------------------------------------\n";

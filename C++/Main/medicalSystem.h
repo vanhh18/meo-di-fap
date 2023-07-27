@@ -1,9 +1,6 @@
 #pragma once
 #include "header.h"
-#include <fstream>
-#include <vector>
-#include <algorithm>
-#include "healthRecords.h"
+
 
 class MedicalSystem {
 private:

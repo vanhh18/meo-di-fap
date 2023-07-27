@@ -1,18 +1,24 @@
 #pragma once
 #include "medicalSystem.h"
+#include <iomanip>
+
 
 void MedicalSystem::listRecords() {
     system("cls");
     title();
+    cin.ignore();
     cout << "Patient Records:" << endl;
     cout << "----------------------" << endl;
+    cout << left << setw(20) << "Patient ID" << setw(30) << "Patient Name" << setw(15) << "Record ID" << setw(15)
+         << "Date" << setw(20) << "Disease" << endl;
+    cout << setfill('=') << setw(100) << "" << setfill(' ') << endl;
+
     if (records.empty()) {
         cout << "No records found." << endl;
     } else {
         for (const auto& record : records) {
-            cout << "Record ID: " << record.getRecordID() << ", Patient ID: " << record.getPatientID()
-                << ", Patient Name: " << record.getPatientName() << ", Date: " << record.getDate()
-                << ", Disease: " << record.getDisease() << endl;
+            cout << left << setw(20) << record.getPatientID() << setw(30) << record.getPatientName() << setw(15)
+                 << record.getRecordID() << setw(15) << record.getDate() << setw(20) << record.getDisease() << endl;
         }
     }
 }
@@ -23,6 +29,7 @@ void MedicalSystem::editRecord() {
     cout << "Enter record ID to edit: ";
     cin.ignore();
     getline(cin, searchRecordID);
+
     bool found = false;
 
     for (auto& record : records) {
@@ -69,20 +76,10 @@ void MedicalSystem::addRecord() {
     cout << "Enter patient name: ";
     cin.ignore();
     getline(cin, patientName);
-    bool isDuplicate;
-    do {
-        isDuplicate = false;
-        cout << "Enter record ID: ";
-        getline(cin, recordID);
-
-        for (const auto& record : records) {
-            if (record.getRecordID() == recordID) {
-                isDuplicate = true;
-                cout << "Record ID is already taken. Please enter a different one." << endl;
-                break;
-            }
-        }
-    } while (isDuplicate);
+    //bool isDuplicate;
+    // Generate the record ID
+    int nextRecordID = records.empty() ? 1 : stoi(records.back().getRecordID()) + 1;
+    recordID = to_string(nextRecordID);
     cout << "Enter date: ";
     getline(cin, date);
     cout << "Enter disease: ";

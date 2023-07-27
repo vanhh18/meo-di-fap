@@ -1,57 +1,6 @@
 #pragma once
 #include "medicalSystem.h"
-
-void MedicalSystem::searchByPatientID() {
-    system("cls");
-    string searchPatientID;
-    cout << "Enter patient ID: ";
-    cin.ignore();
-    getline(cin, searchPatientID);
-    bool found = false;
-
-    for (const auto& record : records) {
-        if (record.getPatientID() == searchPatientID) {
-            if (!found) {
-                cout << "Records for patient with ID " << searchPatientID << ":" << endl;
-                cout << "----------------------" << endl;
-                found = true;
-            }
-            cout << "Patient ID: " << record.getPatientID() << ", Patient Name: " << record.getPatientName()
-                 << ", Record ID: " << record.getRecordID() << ", Date: " << record.getDate()
-                 << ", Disease: " << record.getDisease() << endl;
-        }
-    }
-
-    if (!found) {
-        cout << "No records found for the given patient ID." << endl;
-    }
-}
-
-void MedicalSystem::searchByRecordID() {
-    system("cls");
-    string searchRecordID;
-    cout << "Enter record ID: ";
-    cin.ignore();
-    getline(cin, searchRecordID);
-    bool found = false;
-
-    for (auto i = records.begin(); i != records.end(); ++i) {
-        if (i->getRecordID() == searchRecordID) {
-            if (!found) {
-                cout << "Records with record ID " << searchRecordID << ":" << endl;
-                cout << "----------------------" << endl;
-                found = true;
-            }
-            cout << "Record ID: " << i->getRecordID() << ", Patient ID: " << i->getPatientID()
-                 << ", Patient Name: " << i->getPatientName() << ", Date: " << i->getDate()
-                 << ", Disease: " << i->getDisease() << endl;
-        }
-    }
-
-    if (!found) {
-        cout << "No records found for the given record ID." << endl;
-    }
-}
+#include <iomanip>
 
 void MedicalSystem::searchByDate() {
     system("cls");
@@ -61,16 +10,15 @@ void MedicalSystem::searchByDate() {
     getline(cin, searchDate);
     bool found = false;
 
-    for (auto i = records.begin(); i != records.end(); ++i) {
-        if (i->getDate() == searchDate) {
-            if (!found) {
-                cout << "Records with date " << searchDate << ":" << endl;
-                cout << "----------------------" << endl;
-                found = true;
-            }
-            cout << "Record ID: " << i->getRecordID() << ", Patient ID: " << i->getPatientID()
-                 << ", Patient Name: " << i->getPatientName() << ", Date: " << i->getDate()
-                 << ", Disease: " << i->getDisease() << endl;
+    cout << left << setw(20) << "Patient ID" << setw(30) << "Patient Name" << setw(15) << "Record ID" << setw(15)
+         << "Date" << setw(20) << "Disease" << endl;
+    cout << setfill('=') << setw(100) << "" << setfill(' ') << endl;
+
+    for (const auto& record : records) {
+        if (record.getDate() == searchDate) {
+            cout << left << setw(20) << record.getPatientID() << setw(30) << record.getPatientName() << setw(15)
+                 << record.getRecordID() << setw(15) << record.getDate() << setw(20) << record.getDisease() << endl;
+            found = true;
         }
     }
 
@@ -88,16 +36,15 @@ void MedicalSystem::searchByDisease() {
 
     bool found = false;
 
-    for (auto i = records.begin(); i != records.end(); ++i) {
-        if (i->getDisease() == searchDisease) {
-            if (!found) {
-                cout << "Records with disease " << searchDisease << ":" << endl;
-                cout << "----------------------" << endl;
-                found = true;
-            }
-            cout << "Record ID: " << i->getRecordID() << ", Patient ID: " << i->getPatientID()
-                 << ", Patient Name: " << i->getPatientName() << ", Date: " << i->getDate()
-                 << ", Disease: " << i->getDisease() << endl;
+    cout << left << setw(20) << "Patient ID" << setw(30) << "Patient Name" << setw(15) << "Record ID" << setw(15)
+         << "Date" << setw(20) << "Disease" << endl;
+    cout << setfill('=') << setw(100) << "" << setfill(' ') << endl;
+
+    for (const auto& record : records) {
+        if (record.getDisease() == searchDisease) {
+            cout << left << setw(20) << record.getPatientID() << setw(30) << record.getPatientName() << setw(15)
+                 << record.getRecordID() << setw(15) << record.getDate() << setw(20) << record.getDisease() << endl;
+            found = true;
         }
     }
 
