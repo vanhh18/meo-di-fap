@@ -5,6 +5,8 @@
 #include <iomanip> 
 using namespace std;
 
+#define RECORDS_FILE "health_records.txt"
+
 class HealthRecord {
 private:
     string patientID;
@@ -65,7 +67,7 @@ public:
     void removeRecordByID();
 };
 
-MedicalSystem::MedicalSystem(const string& filename) : fileName(filename) {
+MedicalSystem::MedicalSystem(const string& filename) : fileName(RECORDS_FILE) {
     readFromFile();
 }
 
@@ -165,7 +167,7 @@ void MedicalSystem::loginScreen() {
 }
 
 void MedicalSystem::saveToFile() {
-    ofstream outputFile(fileName);
+    ofstream outputFile(RECORDS_FILE);
 
     if (!outputFile) {
         cout << "Error opening file." << endl;
@@ -184,7 +186,7 @@ void MedicalSystem::saveToFile() {
 }
 
 void MedicalSystem::readFromFile() {
-    ifstream inputFile(fileName);
+    ifstream inputFile(RECORDS_FILE);
     if (!inputFile) {
         cout << "Error opening file." << endl;
         return;
@@ -456,7 +458,7 @@ void MedicalSystem::searchRecord() {
 }
 
 int main() {
-    MedicalSystem medicalSystem("health_records.txt");
+    MedicalSystem medicalSystem(RECORDS_FILE);
     system("cls");
     medicalSystem.welcomeScreen();
     medicalSystem.title();
