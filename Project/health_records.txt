@@ -1,0 +1,11 @@
+Patient ID          Patient Name                  Record ID      Date           Disease             
+====================================================================================================
+100                 Chau                          1              10             None                
+101                 Nam                           2              11             Sleepy              
+102                 SNam                          3              10             Dizzy               
+104                 VAnh                          4              13             Lazy                
+105                 Minh                          5              12             Dumb                
+100                 Chau                          6              15             Tired               
+103                 Kien                          7              14             Bored               
+100                 Chau                          8              16             Exhausted           
+106                 Quang                         9              17             Bi-a                

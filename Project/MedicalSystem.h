@@ -2,6 +2,8 @@
 #include "header.h"
 #include "HealthRecord.h"
 
+#define RECORDS_FILE "health_records.txt"
+
 class MedicalSystem {
 private:
     vector<HealthRecord> records;
@@ -25,7 +27,7 @@ public:
     void removeRecordByID();
 };
 
-MedicalSystem::MedicalSystem(const string& filename) : fileName(filename) {
+MedicalSystem::MedicalSystem(const string& filename) : fileName(RECORDS_FILE) {
     readFromFile();
 }
 
@@ -82,6 +84,7 @@ void MedicalSystem::mainMenu() {
             default:
                 system("cls");
                 cout << "\t\t\tInvalid entry. Please enter the right option :)\n";
+                cin.ignore();
         }
         cout << endl << "\t\t\t-------------------------" << endl;
         cout << "\t\t\tPress any key to continue." << endl;
@@ -124,7 +127,7 @@ void MedicalSystem::loginScreen() {
 }
 
 void MedicalSystem::saveToFile() {
-    ofstream outputFile(fileName);
+    ofstream outputFile(RECORDS_FILE);
 
     if (!outputFile) {
         cout << "Error opening file." << endl;
@@ -143,7 +146,7 @@ void MedicalSystem::saveToFile() {
 }
 
 void MedicalSystem::readFromFile() {
-    ifstream inputFile(fileName);
+    ifstream inputFile(RECORDS_FILE);
     if (!inputFile) {
         cout << "Error opening file." << endl;
         return;

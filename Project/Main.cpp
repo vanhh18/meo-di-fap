@@ -3,7 +3,7 @@
 #include "MedicalSystem.h"
 
 int main() {
-    MedicalSystem medicalSystem("health_records.txt");
+    MedicalSystem medicalSystem(RECORDS_FILE);
 
     medicalSystem.welcomeScreen();
     medicalSystem.title();
